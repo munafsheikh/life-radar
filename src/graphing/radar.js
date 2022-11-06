@@ -47,10 +47,10 @@ const Radar = function (size, radar) {
 
   function plotLines(sectorGroup, sector) {
     var startX = size * (1 - (-Math.sin(toRadian(sector.startAngle)) + 1) / 2)
-    var endX = size * (1 - (-Math.sin(toRadian(sector.startAngle - 90)) + 1) / 2)
+    var endX = size * (1 - (-Math.sin(toRadian(sector.startAngle - 45)) + 1) / 2)
 
     var startY = size * (1 - (Math.cos(toRadian(sector.startAngle)) + 1) / 2)
-    var endY = size * (1 - (Math.cos(toRadian(sector.startAngle - 90)) + 1) / 2)
+    var endY = size * (1 - (Math.cos(toRadian(sector.startAngle - 45)) + 1) / 2)
 
     if (startY > endY) {
       var aux = endY
@@ -89,7 +89,7 @@ const Radar = function (size, radar) {
         .innerRadius(ringCalculator.getRadius(i))
         .outerRadius(ringCalculator.getRadius(i + 1))
         .startAngle(toRadian(sector.startAngle))
-        .endAngle(toRadian(sector.startAngle - 90))
+        .endAngle(toRadian(sector.startAngle - 45))
 
       sectorGroup
         .append('path')
@@ -103,7 +103,7 @@ const Radar = function (size, radar) {
 
   function plotTexts(sectorGroup, rings, sector) {
     rings.forEach(function (ring, i) {
-      if (sector.order === 'first' || sector.order === 'fourth') {
+      if (sector.order === 'first' || sector.order === 'eighth') {
         sectorGroup
           .append('text')
           .attr('class', 'line-text')
@@ -429,6 +429,26 @@ const Radar = function (size, radar) {
       y = (4 * size) / 5
     }
 
+    if (order === 'fifth') {
+      x = (4 * size) / 5
+      y = (1 * size) / 5
+    }
+
+    if (order === 'sixth') {
+      x = (1 * size) / 5 - 15
+      y = (1 * size) / 5 - 20
+    }
+
+    if (order === 'seventh') {
+      x = (1 * size) / 5 - 15
+      y = (4 * size) / 5 + 15
+    }
+
+    if (order === 'eighth') {
+      x = (4 * size) / 5
+      y = (4 * size) / 5
+    }
+
     d3.select('.legend')
       .attr('class', 'legend legend-' + order)
       .transition()
@@ -553,7 +573,7 @@ const Radar = function (size, radar) {
         .on('click', selectSector.bind({}, sector.order, sector.startAngle))
     }
 
-    _.each([0, 1, 2, 3], function (i) {
+    _.each([0, 1, 2, 3, 4, 5, 6, 7], function (i) {
       addButton(sectors[i])
     })
 
