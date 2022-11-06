@@ -1,9 +1,33 @@
 name,ring,sector,isNew,description
-Babel,adopt,tools,TRUE,test
-Apache Kafka,trial,languages & frameworks,FALSE,test
-Android-x86,assess,platforms,TRUE,test
-Cloud lift and shift,hold,techniques,FALSE,test
-Babel,adopt,tools1,TRUE,test
-Apache Kafka,trial,languages2 & frameworks,FALSE,test
-Android-x86,assess,platforms2,TRUE,test
-Cloud lift and shift,hold,techniques2,FALSE,test
+Physical Item 1,Adopt,Physical,FALSE,<p>Placeholder text for Adopt Item</p>
+Physical Item 2,Trial,Physical,TRUE,<p>Placeholder text for Trial Item</p>
+Physical Item 3,Assess,Physical,FALSE,<p>Placeholder text for Assess Item</p>
+Physical Item 4,Hold,Physical,TRUE,<p>Placeholder text for Hold Item</p>
+Intellectual Item 1,Adopt,Intellectual,FALSE,<p>Placeholder text for Adopt Item</p>
+Intellectual Item 2,Trial,Intellectual,TRUE,<p>Placeholder text for Trial Item</p>
+Intellectual Item 3,Assess,Intellectual,FALSE,<p>Placeholder text for Assess Item</p>
+Intellectual Item 4,Hold,Intellectual,TRUE,<p>Placeholder text for Hold Item</p>
+Emotional Item 1,Adopt,Emotional,FALSE,<p>Placeholder text for Adopt Item</p>
+Emotional Item 2,Trial,Emotional,TRUE,<p>Placeholder text for Trial Item</p>
+Emotional Item 3,Assess,Emotional,FALSE,<p>Placeholder text for Assess Item</p>
+Emotional Item 4,Hold,Emotional,TRUE,<p>Placeholder text for Hold Item</p>
+Social Item 1,Adopt,Social,FALSE,<p>Placeholder text for Adopt Item</p>
+Social Item 2,Trial,Social,TRUE,<p>Placeholder text for Trial Item</p>
+Social Item 3,Assess,Social,FALSE,<p>Placeholder text for Assess Item</p>
+Social Item 4,Hold,Social,TRUE,<p>Placeholder text for Hold Item</p>
+Spiritual Item 1,Adopt,Spiritual,FALSE,<p>Placeholder text for Adopt Item</p>
+Spiritual Item 2,Trial,Spiritual,TRUE,<p>Placeholder text for Trial Item</p>
+Spiritual Item 3,Assess,Spiritual,FALSE,<p>Placeholder text for Assess Item</p>
+Spiritual Item 4,Hold,Spiritual,TRUE,<p>Placeholder text for Hold Item</p>
+Vocational Item 1,Adopt,Vocational,FALSE,<p>Placeholder text for Adopt Item</p>
+Vocational Item 2,Trial,Vocational,TRUE,<p>Placeholder text for Trial Item</p>
+Vocational Item 3,Assess,Vocational,FALSE,<p>Placeholder text for Assess Item</p>
+Vocational Item 4,Hold,Vocational,TRUE,<p>Placeholder text for Hold Item</p>
+Financial Item 1,Adopt,Financial,FALSE,<p>Placeholder text for Adopt Item</p>
+Financial Item 2,Trial,Financial,TRUE,<p>Placeholder text for Trial Item</p>
+Financial Item 3,Assess,Financial,FALSE,<p>Placeholder text for Assess Item</p>
+Financial Item 4,Hold,Financial,TRUE,<p>Placeholder text for Hold Item</p>
+Environmental Item 1,Adopt,Environmental,FALSE,<p>Placeholder text for Adopt Item</p>
+Environmental Item 2,Trial,Environmental,TRUE,<p>Placeholder text for Trial Item</p>
+Environmental Item 3,Assess,Environmental,FALSE,<p>Placeholder text for Assess Item</p>
+Environmental Item 4,Hold,Environmental,TRUE,<p>Placeholder text for Hold Item</p>

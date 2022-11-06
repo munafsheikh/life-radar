@@ -108,7 +108,6 @@ describe('Radar', function () {
     radar.addSector(new Sector('Fifth'))
     radar.addSector(new Sector('Sixth'))
     radar.addSector(new Sector('Seventh'))
-    // radar.addSector(new Sector('Eighth'))
 
     expect(function () {
       radar.rings()
