@@ -4,28 +4,28 @@ require('jquery-ui/ui/widgets/autocomplete')
 $.widget('custom.radarcomplete', $.ui.autocomplete, {
   _create: function () {
     this._super()
-    this.widget().menu('option', 'items', '> :not(.ui-autocomplete-quadrant)')
+    this.widget().menu('option', 'items', '> :not(.ui-autocomplete-sector)')
   },
   _renderMenu: function (ul, items) {
     let currentSector = ''
 
     items.forEach((item) => {
-      const quadrantName = item.quadrant.quadrant.name()
-      if (quadrantName !== currentSector) {
-        ul.append(`<li class='ui-autocomplete-quadrant'>${quadrantName}</li>`)
-        currentSector = quadrantName
+      const sectorName = item.sector.sector.name()
+      if (sectorName !== currentSector) {
+        ul.append(`<li class='ui-autocomplete-sector'>${sectorName}</li>`)
+        currentSector = sectorName
       }
       const li = this._renderItemData(ul, item)
-      if (quadrantName) {
-        li.attr('aria-label', `${quadrantName}:${item.value}`)
+      if (sectorName) {
+        li.attr('aria-label', `${sectorName}:${item.value}`)
       }
     })
   },
 })
 
 const AutoComplete = (el, sectors, cb) => {
-  const blips = sectors.reduce((acc, quadrant) => {
-    return [...acc, ...quadrant.quadrant.blips().map((blip) => ({ blip, quadrant }))]
+  const blips = sectors.reduce((acc, sector) => {
+    return [...acc, ...sector.sector.blips().map((blip) => ({ blip, sector }))]
   }, [])
 
   $(el).radarcomplete({

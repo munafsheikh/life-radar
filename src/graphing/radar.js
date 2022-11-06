@@ -12,7 +12,7 @@ const MIN_BLIP_WIDTH = 12
 const ANIMATION_DURATION = 1000
 
 const Radar = function (size, radar) {
-  var svg, radarElement, quadrantButtons, buttonsGroup, header, alternativeDiv
+  var svg, radarElement, sectorButtons, buttonsGroup, header, alternativeDiv
 
   var tip = d3tip()
     .attr('class', 'd3-tip')
@@ -21,8 +21,8 @@ const Radar = function (size, radar) {
     })
 
   tip.direction(function () {
-    if (d3.select('.quadrant-table.selected').node()) {
-      var selectedSector = d3.select('.quadrant-table.selected')
+    if (d3.select('.sector-table.selected').node()) {
+      var selectedSector = d3.select('.sector-table.selected')
       if (selectedSector.classed('first') || selectedSector.classed('fourth')) {
         return 'ne'
       } else {
@@ -45,12 +45,12 @@ const Radar = function (size, radar) {
     return (Math.PI * angleInDegrees) / 180
   }
 
-  function plotLines(quadrantGroup, quadrant) {
-    var startX = size * (1 - (-Math.sin(toRadian(quadrant.startAngle)) + 1) / 2)
-    var endX = size * (1 - (-Math.sin(toRadian(quadrant.startAngle - 90)) + 1) / 2)
+  function plotLines(sectorGroup, sector) {
+    var startX = size * (1 - (-Math.sin(toRadian(sector.startAngle)) + 1) / 2)
+    var endX = size * (1 - (-Math.sin(toRadian(sector.startAngle - 90)) + 1) / 2)
 
-    var startY = size * (1 - (Math.cos(toRadian(quadrant.startAngle)) + 1) / 2)
-    var endY = size * (1 - (Math.cos(toRadian(quadrant.startAngle - 90)) + 1) / 2)
+    var startY = size * (1 - (Math.cos(toRadian(sector.startAngle)) + 1) / 2)
+    var endY = size * (1 - (Math.cos(toRadian(sector.startAngle - 90)) + 1) / 2)
 
     if (startY > endY) {
       var aux = endY
@@ -58,7 +58,7 @@ const Radar = function (size, radar) {
       startY = aux
     }
 
-    quadrantGroup
+    sectorGroup
       .append('line')
       .attr('x1', center())
       .attr('x2', center())
@@ -66,7 +66,7 @@ const Radar = function (size, radar) {
       .attr('y2', endY + 2)
       .attr('stroke-width', 10)
 
-    quadrantGroup
+    sectorGroup
       .append('line')
       .attr('x1', endX)
       .attr('y1', center())
@@ -75,36 +75,36 @@ const Radar = function (size, radar) {
       .attr('stroke-width', 10)
   }
 
-  function plotSector(rings, quadrant) {
-    var quadrantGroup = svg
+  function plotSector(rings, sector) {
+    var sectorGroup = svg
       .append('g')
-      .attr('class', 'quadrant-group quadrant-group-' + quadrant.order)
-      .on('mouseover', mouseoverSector.bind({}, quadrant.order))
-      .on('mouseout', mouseoutSector.bind({}, quadrant.order))
-      .on('click', selectSector.bind({}, quadrant.order, quadrant.startAngle))
+      .attr('class', 'sector-group sector-group-' + sector.order)
+      .on('mouseover', mouseoverSector.bind({}, sector.order))
+      .on('mouseout', mouseoutSector.bind({}, sector.order))
+      .on('click', selectSector.bind({}, sector.order, sector.startAngle))
 
     rings.forEach(function (ring, i) {
       var arc = d3
         .arc()
         .innerRadius(ringCalculator.getRadius(i))
         .outerRadius(ringCalculator.getRadius(i + 1))
-        .startAngle(toRadian(quadrant.startAngle))
-        .endAngle(toRadian(quadrant.startAngle - 90))
+        .startAngle(toRadian(sector.startAngle))
+        .endAngle(toRadian(sector.startAngle - 90))
 
-      quadrantGroup
+      sectorGroup
         .append('path')
         .attr('d', arc)
         .attr('class', 'ring-arc-' + ring.order())
         .attr('transform', 'translate(' + center() + ', ' + center() + ')')
     })
 
-    return quadrantGroup
+    return sectorGroup
   }
 
-  function plotTexts(quadrantGroup, rings, quadrant) {
+  function plotTexts(sectorGroup, rings, sector) {
     rings.forEach(function (ring, i) {
-      if (quadrant.order === 'first' || quadrant.order === 'fourth') {
-        quadrantGroup
+      if (sector.order === 'first' || sector.order === 'fourth') {
+        sectorGroup
           .append('text')
           .attr('class', 'line-text')
           .attr('y', center() + 4)
@@ -112,7 +112,7 @@ const Radar = function (size, radar) {
           .attr('text-anchor', 'middle')
           .text(ring.name())
       } else {
-        quadrantGroup
+        sectorGroup
           .append('text')
           .attr('class', 'line-text')
           .attr('y', center() + 4)
@@ -190,7 +190,7 @@ const Radar = function (size, radar) {
   }
 
   function addRing(ring, order) {
-    var table = d3.select('.quadrant-table.' + order)
+    var table = d3.select('.sector-table.' + order)
     table.append('h3').text(ring)
     return table.append('ul')
   }
@@ -222,19 +222,19 @@ const Radar = function (size, radar) {
     })
   }
 
-  function plotBlips(quadrantGroup, rings, quadrantWrapper) {
-    var blips, quadrant, startAngle, order
+  function plotBlips(sectorGroup, rings, sectorWrapper) {
+    var blips, sector, startAngle, order
 
-    quadrant = quadrantWrapper.quadrant
-    startAngle = quadrantWrapper.startAngle
-    order = quadrantWrapper.order
+    sector = sectorWrapper.sector
+    startAngle = sectorWrapper.startAngle
+    order = sectorWrapper.order
 
-    d3.select('.quadrant-table.' + order)
+    d3.select('.sector-table.' + order)
       .append('h2')
-      .attr('class', 'quadrant-table__name')
-      .text(quadrant.name())
+      .attr('class', 'sector-table__name')
+      .text(sector.name())
 
-    blips = quadrant.blips()
+    blips = sector.blips()
     rings.forEach(function (ring, i) {
       var ringBlips = blips.filter(function (blip) {
         return blip.ring() === ring
@@ -255,13 +255,13 @@ const Radar = function (size, radar) {
         .reduce(function (p, c) {
           return p + c.charCodeAt(0)
         }, 0)
-      var sumSector = quadrant
+      var sumSector = sector
         .name()
         .split('')
         .reduce(function (p, c) {
           return p + c.charCodeAt(0)
         }, 0)
-      chance = new Chance(Math.PI * sumRing * ring.name().length * sumSector * quadrant.name().length)
+      chance = new Chance(Math.PI * sumRing * ring.name().length * sumSector * sector.name().length)
 
       var ringList = addRing(ring.name(), order)
       var allBlipCoordinatesInRing = []
@@ -270,7 +270,7 @@ const Radar = function (size, radar) {
         const coordinates = findBlipCoordinates(blip, minRadius, maxRadius, startAngle, allBlipCoordinatesInRing)
 
         allBlipCoordinatesInRing.push(coordinates)
-        drawBlipInCoordinates(blip, coordinates, order, quadrantGroup, ringList)
+        drawBlipInCoordinates(blip, coordinates, order, sectorGroup, ringList)
       })
     })
   }
@@ -299,11 +299,11 @@ const Radar = function (size, radar) {
     }
   }
 
-  function drawBlipInCoordinates(blip, coordinates, order, quadrantGroup, ringList) {
+  function drawBlipInCoordinates(blip, coordinates, order, sectorGroup, ringList) {
     var x = coordinates[0]
     var y = coordinates[1]
 
-    var group = quadrantGroup
+    var group = sectorGroup
       .append('g')
       .attr('class', 'blip-link')
       .attr('id', 'blip-link-' + blip.number())
@@ -463,20 +463,20 @@ const Radar = function (size, radar) {
 
     d3.selectAll('.button').classed('selected', false).classed('full-view', true)
 
-    d3.selectAll('.quadrant-table').classed('selected', false)
+    d3.selectAll('.sector-table').classed('selected', false)
     d3.selectAll('.home-link').classed('selected', false)
 
-    d3.selectAll('.quadrant-group').transition().duration(ANIMATION_DURATION).attr('transform', 'scale(1)')
+    d3.selectAll('.sector-group').transition().duration(ANIMATION_DURATION).attr('transform', 'scale(1)')
 
-    d3.selectAll('.quadrant-group .blip-link').transition().duration(ANIMATION_DURATION).attr('transform', 'scale(1)')
+    d3.selectAll('.sector-group .blip-link').transition().duration(ANIMATION_DURATION).attr('transform', 'scale(1)')
 
-    d3.selectAll('.quadrant-group').style('pointer-events', 'auto')
+    d3.selectAll('.sector-group').style('pointer-events', 'auto')
   }
 
   function searchBlip(_e, ui) {
-    const { blip, quadrant } = ui.item
-    const isSectorSelected = d3.select('div.button.' + quadrant.order).classed('selected')
-    selectSector.bind({}, quadrant.order, quadrant.startAngle)()
+    const { blip, sector } = ui.item
+    const isSectorSelected = d3.select('div.button.' + sector.order).classed('selected')
+    selectSector.bind({}, sector.order, sector.startAngle)()
     const selectedDesc = d3.select('#blip-description-' + blip.number())
     d3.select('.blip-item-description.expanded').node() !== selectedDesc.node() &&
       d3.select('.blip-item-description.expanded').classed('expanded', false)
@@ -490,7 +490,7 @@ const Radar = function (size, radar) {
     if (isSectorSelected) {
       tip.show(blip.name(), group.node())
     } else {
-      // need to account for the animation time associated with selecting a quadrant
+      // need to account for the animation time associated with selecting a sector
       tip.hide()
 
       setTimeout(function () {
@@ -519,7 +519,7 @@ const Radar = function (size, radar) {
 
     buttonsGroup = header.append('div').classed('buttons-group', true)
 
-    quadrantButtons = buttonsGroup.append('div').classed('quadrant-btn--group', true)
+    sectorButtons = buttonsGroup.append('div').classed('sector-btn--group', true)
 
     alternativeDiv = header.append('div').attr('id', 'alternative-buttons')
 
@@ -533,7 +533,7 @@ const Radar = function (size, radar) {
 
     buttonsGroup = radarWrapper.append('div').classed('buttons-group', true)
 
-    quadrantButtons = buttonsGroup.append('div').classed('quadrant-btn--group', true)
+    sectorButtons = buttonsGroup.append('div').classed('sector-btn--group', true)
 
     alternativeDiv = radarWrapper.append('div').attr('id', 'alternative-buttons')
 
@@ -541,16 +541,16 @@ const Radar = function (size, radar) {
   }
 
   function plotSectorButtons(sectors) {
-    function addButton(quadrant) {
-      radarElement.append('div').attr('class', 'quadrant-table ' + quadrant.order)
+    function addButton(sector) {
+      radarElement.append('div').attr('class', 'sector-table ' + sector.order)
 
-      quadrantButtons
+      sectorButtons
         .append('div')
-        .attr('class', 'button ' + quadrant.order + ' full-view')
-        .text(quadrant.quadrant.name())
-        .on('mouseover', mouseoverSector.bind({}, quadrant.order))
-        .on('mouseout', mouseoutSector.bind({}, quadrant.order))
-        .on('click', selectSector.bind({}, quadrant.order, quadrant.startAngle))
+        .attr('class', 'button ' + sector.order + ' full-view')
+        .text(sector.sector.name())
+        .on('mouseover', mouseoverSector.bind({}, sector.order))
+        .on('mouseout', mouseoutSector.bind({}, sector.order))
+        .on('click', selectSector.bind({}, sector.order, sector.startAngle))
     }
 
     _.each([0, 1, 2, 3], function (i) {
@@ -592,12 +592,12 @@ const Radar = function (size, radar) {
   }
 
   function mouseoverSector(order) {
-    d3.select('.quadrant-group-' + order).style('opacity', 1)
-    d3.selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').style('opacity', 0.3)
+    d3.select('.sector-group-' + order).style('opacity', 1)
+    d3.selectAll('.sector-group:not(.sector-group-' + order + ')').style('opacity', 0.3)
   }
 
   function mouseoutSector(order) {
-    d3.selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').style('opacity', 1)
+    d3.selectAll('.sector-group:not(.sector-group-' + order + ')').style('opacity', 1)
   }
 
   function selectSector(order, startAngle) {
@@ -606,8 +606,8 @@ const Radar = function (size, radar) {
 
     d3.selectAll('.button').classed('selected', false).classed('full-view', false)
     d3.selectAll('.button.' + order).classed('selected', true)
-    d3.selectAll('.quadrant-table').classed('selected', false)
-    d3.selectAll('.quadrant-table.' + order).classed('selected', true)
+    d3.selectAll('.sector-table').classed('selected', false)
+    d3.selectAll('.sector-table.' + order).classed('selected', true)
     d3.selectAll('.blip-item-description').classed('expanded', false)
 
     var scale = 2
@@ -628,11 +628,11 @@ const Radar = function (size, radar) {
     var blipTranslate = (1 - blipScale) / blipScale
 
     svg.style('left', moveLeft + 'px').style('right', moveRight + 'px')
-    d3.select('.quadrant-group-' + order)
+    d3.select('.sector-group-' + order)
       .transition()
       .duration(ANIMATION_DURATION)
       .attr('transform', 'translate(' + translateX + ',' + translateY + ')scale(' + scale + ')')
-    d3.selectAll('.quadrant-group-' + order + ' .blip-link text').each(function () {
+    d3.selectAll('.sector-group-' + order + ' .blip-link text').each(function () {
       var x = d3.select(this).attr('x')
       var y = d3.select(this).attr('y')
       d3.select(this.parentNode)
@@ -641,9 +641,9 @@ const Radar = function (size, radar) {
         .attr('transform', 'scale(' + blipScale + ')translate(' + blipTranslate * x + ',' + blipTranslate * y + ')')
     })
 
-    d3.selectAll('.quadrant-group').style('pointer-events', 'auto')
+    d3.selectAll('.sector-group').style('pointer-events', 'auto')
 
-    d3.selectAll('.quadrant-group:not(.quadrant-group-' + order + ')')
+    d3.selectAll('.sector-group:not(.sector-group-' + order + ')')
       .transition()
       .duration(ANIMATION_DURATION)
       .style('pointer-events', 'none')
@@ -720,11 +720,11 @@ const Radar = function (size, radar) {
       .attr('width', size)
       .attr('height', size + 14)
 
-    _.each(sectors, function (quadrant) {
-      var quadrantGroup = plotSector(rings, quadrant)
-      plotLines(quadrantGroup, quadrant)
-      plotTexts(quadrantGroup, rings, quadrant)
-      plotBlips(quadrantGroup, rings, quadrant)
+    _.each(sectors, function (sector) {
+      var sectorGroup = plotSector(rings, sector)
+      plotLines(sectorGroup, sector)
+      plotTexts(sectorGroup, rings, sector)
+      plotBlips(sectorGroup, rings, sector)
     })
   }
 

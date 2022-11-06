@@ -75,32 +75,32 @@ body {
     display: none;
   }
 
-  .quadrant-table {
-    .quadrant-table__name {
+  .sector-table {
+    .sector-table__name {
       display: block;
       font-size: 36pt;
       padding: 0 10px;
       margin-bottom: 20px;
     }
 
-    &.first .quadrant-table__name {
+    &.first .sector-table__name {
       color: $green;
     }
 
-    &.second .quadrant-table__name {
+    &.second .sector-table__name {
       color: $blue;
     }
 
-    &.third .quadrant-table__name {
+    &.third .sector-table__name {
       color: $orange;
     }
 
-    &.fourth .quadrant-table__name {
+    &.fourth .sector-table__name {
       color: $violet;
     }
   }
 
-  .quadrant-table {
+  .sector-table {
     page-break-after: always;
 
     ul {
@@ -238,7 +238,7 @@ body {
         cursor: pointer;
       }
 
-      .quadrant-group {
+      .sector-group {
         cursor: pointer;
       }
 
@@ -286,8 +286,8 @@ body {
       }
     }
 
-    div.quadrant-table {
-      .quadrant-table__name {
+    div.sector-table {
+      .sector-table__name {
         display: none;
       }
 

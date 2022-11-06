@@ -30,7 +30,7 @@ You need to make your data public in a form we can digest.
 
 Create a Google Sheet. Give it at least the below column headers, and put in the content that you want:
 
-| name          | ring   | quadrant               | isNew | description                                             |
+| name          | ring   | sector                 | isNew | description                                             |
 | ------------- | ------ | ---------------------- | ----- | ------------------------------------------------------- |
 | Composer      | adopt  | tools                  | TRUE  | Although the idea of dependency management ...          |
 | Canary builds | trial  | techniques             | FALSE | Many projects have external code dependencies ...       |
@@ -53,7 +53,7 @@ For example, a [raw URL](https://raw.githubusercontent.com/thoughtworks/build-yo
 The format is just the same as that of the Google Sheet, the example is as follows:
 
 ```
-name,ring,quadrant,isNew,description
+name,ring,sector,isNew,description
 Composer,adopt,tools,TRUE,"Although the idea of dependency management ..."
 Canary builds,trial,techniques,FALSE,"Many projects have external code dependencies ..."
 Apache Kylin,assess,platforms,TRUE,"Apache Kylin is an open source analytics solution ..."
@@ -69,7 +69,7 @@ If you do not want to host the CSV file publicly, you can follow [these steps](#
 Another other way to provide your data is using a JSON array.
 You can enter a publicly accessible URL (not behind any authentication) of a JSON file into the input field on the first page.
 For example, a [raw URL](https://raw.githubusercontent.com/thoughtworks/build-your-own-radar/master/spec/end_to_end_tests/resources/data.json) for a JSON file hosted publicly on GitHub can be used.
-The format of the JSON is an array of objects with the the fields: `name`, `ring`, `quadrant`, `isNew`, and `description`.
+The format of the JSON is an array of objects with the the fields: `name`, `ring`, `sector`, `isNew`, and `description`.
 
 An example:
 
@@ -78,28 +78,28 @@ An example:
   {
     "name": "Composer",
     "ring": "adopt",
-    "quadrant": "tools",
+    "sector": "tools",
     "isNew": "TRUE",
     "description": "Although the idea of dependency management ..."
   },
   {
     "name": "Canary builds",
     "ring": "trial",
-    "quadrant": "techniques",
+    "sector": "techniques",
     "isNew": "FALSE",
     "description": "Many projects have external code dependencies ..."
   },
   {
     "name": "Apache Kylin",
     "ring": "assess",
-    "quadrant": "platforms",
+    "sector": "platforms",
     "isNew": "TRUE",
     "description": "Apache Kylin is an open source analytics solution ..."
   },
   {
     "name": "JSF",
     "ring": "hold",
-    "quadrant": "languages & frameworks",
+    "sector": "languages & frameworks",
     "isNew": "FALSE",
     "description": "We continue to see teams run into trouble using JSF ..."
   }

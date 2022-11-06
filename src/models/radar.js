@@ -44,12 +44,12 @@ const Radar = function () {
     return currentSheetName
   }
 
-  self.addSector = function (quadrant) {
+  self.addSector = function (sector) {
     if (addingSector >= 4) {
       throw new MalformedDataError(ExceptionMessages.TOO_MANY_QUADRANTS)
     }
-    sectors[addingSector].quadrant = quadrant
-    setNumbers(quadrant.blips())
+    sectors[addingSector].sector = sector
+    setNumbers(sector.blips())
     addingSector++
   }
 
@@ -58,12 +58,12 @@ const Radar = function () {
       throw new MalformedDataError(ExceptionMessages.LESS_THAN_FOUR_QUADRANTS)
     }
 
-    return _.map(sectors, 'quadrant')
+    return _.map(sectors, 'sector')
   }
 
   function allBlips() {
-    return allSectors().reduce(function (blips, quadrant) {
-      return blips.concat(quadrant.blips())
+    return allSectors().reduce(function (blips, sector) {
+      return blips.concat(sector.blips())
     }, [])
   }
 

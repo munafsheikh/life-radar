@@ -1,4 +1,4 @@
-const Sector = require('../../src/models/quadrant.js')
+const Sector = require('../../src/models/sector.js')
 const Ring = require('../../src/models/ring.js')
 const Blip = require('../../src/models/blip.js')
 const Radar = require('../../src/models/radar.js')

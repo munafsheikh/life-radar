@@ -10,7 +10,7 @@ describe('InputSanitizer', function () {
       name: "Hello <script>alert('dangerous');</script>there <h1>blip</h1>",
       description: description,
       ring: '<a href="/asd">Adopt</a>',
-      quadrant: '<strong>techniques and tools</strong>',
+      sector: '<strong>techniques and tools</strong>',
       isNew: 'true<br>',
     }
 
@@ -33,8 +33,8 @@ describe('InputSanitizer', function () {
     expect(blip.ring).toEqual('Adopt')
   })
 
-  it('strips out all tags from blip quadrant', function () {
-    expect(blip.quadrant).toEqual('techniques and tools')
+  it('strips out all tags from blip sector', function () {
+    expect(blip.sector).toEqual('techniques and tools')
   })
 
   it('trims white spaces in keys and values', function () {
@@ -53,7 +53,7 @@ describe('Input Santizer for Protected sheet', function () {
   var sanitizer, rawBlip, blip, header
   beforeAll(function () {
     sanitizer = new InputSanitizer()
-    header = ['name', 'quadrant', 'ring', 'isNew', 'description']
+    header = ['name', 'sector', 'ring', 'isNew', 'description']
 
     rawBlip = [
       "Hello <script>alert('dangerous');</script>there <h1>blip</h1>",
@@ -82,8 +82,8 @@ describe('Input Santizer for Protected sheet', function () {
     expect(blip.ring).toEqual('Adopt')
   })
 
-  it('strips out all tags from blip quadrant', function () {
-    expect(blip.quadrant).toEqual('techniques & tools')
+  it('strips out all tags from blip sector', function () {
+    expect(blip.sector).toEqual('techniques & tools')
   })
 
   it('trims white spaces in keys and values', function () {

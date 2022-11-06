@@ -1,7 +1,7 @@
 class RadarPage {
   constructor() {
-    this.blip = '.quadrant-group-second .blip-link'
-    this.blip_selected = '.quadrant-table.selected .blip-list-item'
+    this.blip = '.sector-group-second .blip-link'
+    this.blip_selected = '.sector-table.selected .blip-list-item'
     this.blip_description = '.blip-item-description.expanded p'
     this.sheet2 = '.alternative'
     this.autocomplete = '.search-radar'

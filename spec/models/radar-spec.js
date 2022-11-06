@@ -1,5 +1,5 @@
 const Radar = require('../../src/models/radar')
-const Sector = require('../../src/models/quadrant')
+const Sector = require('../../src/models/sector')
 const Ring = require('../../src/models/ring')
 const Blip = require('../../src/models/blip')
 const MalformedDataError = require('../../src/exceptions/malformedDataError')
@@ -9,77 +9,77 @@ describe('Radar', function () {
   it('has no sectors by default', function () {
     var radar = new Radar()
 
-    expect(radar.sectors()[0].quadrant).not.toBeDefined()
-    expect(radar.sectors()[1].quadrant).not.toBeDefined()
-    expect(radar.sectors()[2].quadrant).not.toBeDefined()
-    expect(radar.sectors()[3].quadrant).not.toBeDefined()
+    expect(radar.sectors()[0].sector).not.toBeDefined()
+    expect(radar.sectors()[1].sector).not.toBeDefined()
+    expect(radar.sectors()[2].sector).not.toBeDefined()
+    expect(radar.sectors()[3].sector).not.toBeDefined()
   })
 
-  it('sets the first quadrant', function () {
-    var quadrant, radar, blip
+  it('sets the first sector', function () {
+    var sector, radar, blip
 
     blip = new Blip('A', new Ring('First'))
-    quadrant = new Sector('First')
-    quadrant.add([blip])
+    sector = new Sector('First')
+    sector.add([blip])
     radar = new Radar()
 
-    radar.addSector(quadrant)
+    radar.addSector(sector)
 
-    expect(radar.sectors()[0].quadrant).toEqual(quadrant)
-    expect(radar.sectors()[0].quadrant.blips()[0].number()).toEqual(1)
+    expect(radar.sectors()[0].sector).toEqual(sector)
+    expect(radar.sectors()[0].sector.blips()[0].number()).toEqual(1)
   })
 
-  it('sets the second quadrant', function () {
-    var quadrant, radar, blip
+  it('sets the second sector', function () {
+    var sector, radar, blip
 
     blip = new Blip('A', new Ring('First'))
-    quadrant = new Sector('Second')
-    quadrant.add([blip])
+    sector = new Sector('Second')
+    sector.add([blip])
     radar = new Radar()
 
-    radar.addSector(quadrant)
+    radar.addSector(sector)
 
-    expect(radar.sectors()[0].quadrant).toEqual(quadrant)
-    expect(radar.sectors()[0].quadrant.blips()[0].number()).toEqual(1)
+    expect(radar.sectors()[0].sector).toEqual(sector)
+    expect(radar.sectors()[0].sector.blips()[0].number()).toEqual(1)
   })
 
-  it('sets the third quadrant', function () {
-    var quadrant, radar, blip
+  it('sets the third sector', function () {
+    var sector, radar, blip
 
     blip = new Blip('A', new Ring('First'))
-    quadrant = new Sector('Third')
-    quadrant.add([blip])
+    sector = new Sector('Third')
+    sector.add([blip])
     radar = new Radar()
 
-    radar.addSector(quadrant)
+    radar.addSector(sector)
 
-    expect(radar.sectors()[0].quadrant).toEqual(quadrant)
-    expect(radar.sectors()[0].quadrant.blips()[0].number()).toEqual(1)
+    expect(radar.sectors()[0].sector).toEqual(sector)
+    expect(radar.sectors()[0].sector.blips()[0].number()).toEqual(1)
   })
 
-  it('sets the fourth quadrant', function () {
-    var quadrant, radar, blip
+  it('sets the fourth sector', function () {
+    var sector, radar, blip
 
     blip = new Blip('A', new Ring('First'))
-    quadrant = new Sector('Fourth')
-    quadrant.add([blip])
+    sector = new Sector('Fourth')
+    sector.add([blip])
     radar = new Radar()
 
-    radar.addSector(quadrant)
+    radar.addSector(sector)
 
-    expect(radar.sectors()[0].quadrant).toEqual(quadrant)
-    expect(radar.sectors()[0].quadrant.blips()[0].number()).toEqual(1)
+    expect(radar.sectors()[0].sector).toEqual(sector)
+    expect(radar.sectors()[0].sector.blips()[0].number()).toEqual(1)
   })
 
   it('throws an error if too many sectors are added', function () {
-    var quadrant, radar, blip
+    var sector, radar, blip
 
     blip = new Blip('A', new Ring('First'))
-    quadrant = new Sector('First')
-    quadrant.add([blip])
+    sector = new Sector('First')
+    sector.add([blip])
     radar = new Radar()
 
-    radar.addSector(quadrant)
+    radar.addSector(sector)
     radar.addSector(new Sector('Second'))
     radar.addSector(new Sector('Third'))
     radar.addSector(new Sector('Fourth'))
@@ -90,14 +90,14 @@ describe('Radar', function () {
   })
 
   it('throws an error if less than 4 sectors are added', function () {
-    var quadrant, radar, blip
+    var sector, radar, blip
 
     blip = new Blip('A', new Ring('First'))
-    quadrant = new Sector('First')
-    quadrant.add([blip])
+    sector = new Sector('First')
+    sector.add([blip])
     radar = new Radar()
 
-    radar.addSector(quadrant)
+    radar.addSector(sector)
     radar.addSector(new Sector('Second'))
     radar.addSector(new Sector('Third'))
 
@@ -118,19 +118,19 @@ describe('Radar', function () {
       radar = new Radar()
     })
 
-    it('sets blip numbers starting on the first quadrant', function () {
+    it('sets blip numbers starting on the first sector', function () {
       radar.addSector(firstSector)
 
-      expect(radar.sectors()[0].quadrant.blips()[0].number()).toEqual(1)
-      expect(radar.sectors()[0].quadrant.blips()[1].number()).toEqual(2)
+      expect(radar.sectors()[0].sector.blips()[0].number()).toEqual(1)
+      expect(radar.sectors()[0].sector.blips()[1].number()).toEqual(2)
     })
 
-    it('continues the number from the previous quadrant set', function () {
+    it('continues the number from the previous sector set', function () {
       radar.addSector(firstSector)
       radar.addSector(secondSector)
 
-      expect(radar.sectors()[1].quadrant.blips()[0].number()).toEqual(3)
-      expect(radar.sectors()[1].quadrant.blips()[1].number()).toEqual(4)
+      expect(radar.sectors()[1].sector.blips()[0].number()).toEqual(3)
+      expect(radar.sectors()[1].sector.blips()[1].number()).toEqual(4)
     })
   })
 
@@ -149,20 +149,20 @@ describe('Radar', function () {
   })
 
   describe('rings', function () {
-    var quadrant, radar, firstRing, secondRing, otherSector
+    var sector, radar, firstRing, secondRing, otherSector
 
     beforeEach(function () {
       firstRing = new Ring('Adopt', 0)
       secondRing = new Ring('Hold', 1)
-      quadrant = new Sector('Fourth')
+      sector = new Sector('Fourth')
       otherSector = new Sector('Other')
       radar = new Radar()
     })
 
     it('returns an array for a given set of blips', function () {
-      quadrant.add([new Blip('A', firstRing), new Blip('B', secondRing)])
+      sector.add([new Blip('A', firstRing), new Blip('B', secondRing)])
 
-      radar.addSector(quadrant)
+      radar.addSector(sector)
       radar.addSector(otherSector)
       radar.addSector(otherSector)
       radar.addSector(otherSector)
@@ -171,9 +171,9 @@ describe('Radar', function () {
     })
 
     it('has unique rings', function () {
-      quadrant.add([new Blip('A', firstRing), new Blip('B', firstRing), new Blip('C', secondRing)])
+      sector.add([new Blip('A', firstRing), new Blip('B', firstRing), new Blip('C', secondRing)])
 
-      radar.addSector(quadrant)
+      radar.addSector(sector)
       radar.addSector(otherSector)
       radar.addSector(otherSector)
       radar.addSector(otherSector)
@@ -182,9 +182,9 @@ describe('Radar', function () {
     })
 
     it('has sorts by the ring order', function () {
-      quadrant.add([new Blip('C', secondRing), new Blip('A', firstRing), new Blip('B', firstRing)])
+      sector.add([new Blip('C', secondRing), new Blip('A', firstRing), new Blip('B', firstRing)])
 
-      radar.addSector(quadrant)
+      radar.addSector(sector)
       radar.addSector(otherSector)
       radar.addSector(otherSector)
       radar.addSector(otherSector)
