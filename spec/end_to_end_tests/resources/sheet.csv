@@ -3,3 +3,7 @@ Babel,adopt,tools,TRUE,test
 Apache Kafka,trial,languages & frameworks,FALSE,test
 Android-x86,assess,platforms,TRUE,test
 Cloud lift and shift,hold,techniques,FALSE,test
+Babel,adopt,tools1,TRUE,test
+Apache Kafka,trial,languages2 & frameworks,FALSE,test
+Android-x86,assess,platforms2,TRUE,test
+Cloud lift and shift,hold,techniques2,FALSE,test

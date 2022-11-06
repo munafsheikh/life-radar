@@ -83,13 +83,17 @@ describe('Radar', function () {
     radar.addSector(new Sector('Second'))
     radar.addSector(new Sector('Third'))
     radar.addSector(new Sector('Fourth'))
+    radar.addSector(new Sector('Fifth'))
+    radar.addSector(new Sector('Sixth'))
+    radar.addSector(new Sector('Seventh'))
+    radar.addSector(new Sector('Eigth'))
 
     expect(function () {
-      radar.addSector(new Sector('Fifth'))
+      radar.addSector(new Sector('Nineth'))
     }).toThrow(new MalformedDataError(ExceptionMessages.TOO_MANY_SECTORS))
   })
 
-  it('throws an error if less than 4 sectors are added', function () {
+  it('throws an error if less than 8 sectors are added', function () {
     var sector, radar, blip
 
     blip = new Blip('A', new Ring('First'))
@@ -100,6 +104,11 @@ describe('Radar', function () {
     radar.addSector(sector)
     radar.addSector(new Sector('Second'))
     radar.addSector(new Sector('Third'))
+    radar.addSector(new Sector('Fourth'))
+    radar.addSector(new Sector('Fifth'))
+    radar.addSector(new Sector('Sixth'))
+    radar.addSector(new Sector('Seventh'))
+    // radar.addSector(new Sector('Eighth'))
 
     expect(function () {
       radar.rings()
@@ -166,6 +175,10 @@ describe('Radar', function () {
       radar.addSector(otherSector)
       radar.addSector(otherSector)
       radar.addSector(otherSector)
+      radar.addSector(otherSector)
+      radar.addSector(otherSector)
+      radar.addSector(otherSector)
+      radar.addSector(otherSector)
 
       expect(radar.rings()).toEqual([firstRing, secondRing])
     })
@@ -174,6 +187,10 @@ describe('Radar', function () {
       sector.add([new Blip('A', firstRing), new Blip('B', firstRing), new Blip('C', secondRing)])
 
       radar.addSector(sector)
+      radar.addSector(otherSector)
+      radar.addSector(otherSector)
+      radar.addSector(otherSector)
+      radar.addSector(otherSector)
       radar.addSector(otherSector)
       radar.addSector(otherSector)
       radar.addSector(otherSector)
@@ -188,7 +205,10 @@ describe('Radar', function () {
       radar.addSector(otherSector)
       radar.addSector(otherSector)
       radar.addSector(otherSector)
-
+      radar.addSector(otherSector)
+      radar.addSector(otherSector)
+      radar.addSector(otherSector)
+      radar.addSector(otherSector)
       expect(radar.rings()).toEqual([firstRing, secondRing])
     })
   })

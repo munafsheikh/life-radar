@@ -26,5 +26,33 @@
     "sector": "techniques",
     "isNew": "FALSE",
     "description": "test"
+  },
+  {
+    "name": "Babel",
+    "ring": "adopt",
+    "sector": "tools 1",
+    "isNew": "TRUE",
+    "description": "test"
+  },
+  {
+    "name": "Apache Kafka",
+    "ring": "trial",
+    "sector": "languages & frameworks 1",
+    "isNew": "FALSE",
+    "description": "test"
+  },
+  {
+    "name": "Android-x86",
+    "ring": "assess",
+    "sector": "platforms 1",
+    "isNew": "TRUE",
+    "description": "test"
+  },
+  {
+    "name": "GrapCloud lift and shifthQL",
+    "ring": "hold",
+    "sector": "techniques 1",
+    "isNew": "FALSE",
+    "description": "test"
   }
 ]
