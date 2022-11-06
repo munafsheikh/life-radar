@@ -10,7 +10,7 @@ const _ = {
 
 const InputSanitizer = require('./inputSanitizer')
 const Radar = require('../models/radar')
-const Quadrant = require('../models/quadrant')
+const Sector = require('../models/quadrant')
 const Ring = require('../models/ring')
 const Blip = require('../models/blip')
 const GraphingRadar = require('../graphing/radar')
@@ -44,19 +44,19 @@ const plotRadar = function (title, blips, currentRadarName, alternativeRadars) {
     ringMap[ringName] = new Ring(ringName, i)
   })
 
-  var quadrants = {}
+  var sectors = {}
   _.each(blips, function (blip) {
-    if (!quadrants[blip.quadrant]) {
-      quadrants[blip.quadrant] = new Quadrant(_.capitalize(blip.quadrant))
+    if (!sectors[blip.quadrant]) {
+      sectors[blip.quadrant] = new Sector(_.capitalize(blip.quadrant))
     }
-    quadrants[blip.quadrant].add(
+    sectors[blip.quadrant].add(
       new Blip(blip.name, ringMap[blip.ring], blip.isNew.toLowerCase() === 'true', blip.topic, blip.description),
     )
   })
 
   var radar = new Radar()
-  _.each(quadrants, function (quadrant) {
-    radar.addQuadrant(quadrant)
+  _.each(sectors, function (quadrant) {
+    radar.addSector(quadrant)
   })
 
   if (alternativeRadars !== undefined || true) {

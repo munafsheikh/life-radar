@@ -7,13 +7,13 @@ $.widget('custom.radarcomplete', $.ui.autocomplete, {
     this.widget().menu('option', 'items', '> :not(.ui-autocomplete-quadrant)')
   },
   _renderMenu: function (ul, items) {
-    let currentQuadrant = ''
+    let currentSector = ''
 
     items.forEach((item) => {
       const quadrantName = item.quadrant.quadrant.name()
-      if (quadrantName !== currentQuadrant) {
+      if (quadrantName !== currentSector) {
         ul.append(`<li class='ui-autocomplete-quadrant'>${quadrantName}</li>`)
-        currentQuadrant = quadrantName
+        currentSector = quadrantName
       }
       const li = this._renderItemData(ul, item)
       if (quadrantName) {
@@ -23,8 +23,8 @@ $.widget('custom.radarcomplete', $.ui.autocomplete, {
   },
 })
 
-const AutoComplete = (el, quadrants, cb) => {
-  const blips = quadrants.reduce((acc, quadrant) => {
+const AutoComplete = (el, sectors, cb) => {
+  const blips = sectors.reduce((acc, quadrant) => {
     return [...acc, ...quadrant.quadrant.blips().map((blip) => ({ blip, quadrant }))]
   }, [])
 

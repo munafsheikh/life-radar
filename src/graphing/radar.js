@@ -22,8 +22,8 @@ const Radar = function (size, radar) {
 
   tip.direction(function () {
     if (d3.select('.quadrant-table.selected').node()) {
-      var selectedQuadrant = d3.select('.quadrant-table.selected')
-      if (selectedQuadrant.classed('first') || selectedQuadrant.classed('fourth')) {
+      var selectedSector = d3.select('.quadrant-table.selected')
+      if (selectedSector.classed('first') || selectedSector.classed('fourth')) {
         return 'ne'
       } else {
         return 'nw'
@@ -75,13 +75,13 @@ const Radar = function (size, radar) {
       .attr('stroke-width', 10)
   }
 
-  function plotQuadrant(rings, quadrant) {
+  function plotSector(rings, quadrant) {
     var quadrantGroup = svg
       .append('g')
       .attr('class', 'quadrant-group quadrant-group-' + quadrant.order)
-      .on('mouseover', mouseoverQuadrant.bind({}, quadrant.order))
-      .on('mouseout', mouseoutQuadrant.bind({}, quadrant.order))
-      .on('click', selectQuadrant.bind({}, quadrant.order, quadrant.startAngle))
+      .on('mouseover', mouseoverSector.bind({}, quadrant.order))
+      .on('mouseout', mouseoutSector.bind({}, quadrant.order))
+      .on('click', selectSector.bind({}, quadrant.order, quadrant.startAngle))
 
     rings.forEach(function (ring, i) {
       var arc = d3
@@ -255,13 +255,13 @@ const Radar = function (size, radar) {
         .reduce(function (p, c) {
           return p + c.charCodeAt(0)
         }, 0)
-      var sumQuadrant = quadrant
+      var sumSector = quadrant
         .name()
         .split('')
         .reduce(function (p, c) {
           return p + c.charCodeAt(0)
         }, 0)
-      chance = new Chance(Math.PI * sumRing * ring.name().length * sumQuadrant * quadrant.name().length)
+      chance = new Chance(Math.PI * sumRing * ring.name().length * sumSector * quadrant.name().length)
 
       var ringList = addRing(ring.name(), order)
       var allBlipCoordinatesInRing = []
@@ -475,8 +475,8 @@ const Radar = function (size, radar) {
 
   function searchBlip(_e, ui) {
     const { blip, quadrant } = ui.item
-    const isQuadrantSelected = d3.select('div.button.' + quadrant.order).classed('selected')
-    selectQuadrant.bind({}, quadrant.order, quadrant.startAngle)()
+    const isSectorSelected = d3.select('div.button.' + quadrant.order).classed('selected')
+    selectSector.bind({}, quadrant.order, quadrant.startAngle)()
     const selectedDesc = d3.select('#blip-description-' + blip.number())
     d3.select('.blip-item-description.expanded').node() !== selectedDesc.node() &&
       d3.select('.blip-item-description.expanded').classed('expanded', false)
@@ -487,7 +487,7 @@ const Radar = function (size, radar) {
     group.attr('opacity', 1.0)
     d3.selectAll('.blip-list-item').classed('highlight', false)
     d3.select('#blip-list-item-' + blip.number()).classed('highlight', true)
-    if (isQuadrantSelected) {
+    if (isSectorSelected) {
       tip.show(blip.name(), group.node())
     } else {
       // need to account for the animation time associated with selecting a quadrant
@@ -540,7 +540,7 @@ const Radar = function (size, radar) {
     return radarWrapper
   }
 
-  function plotQuadrantButtons(quadrants) {
+  function plotSectorButtons(sectors) {
     function addButton(quadrant) {
       radarElement.append('div').attr('class', 'quadrant-table ' + quadrant.order)
 
@@ -548,13 +548,13 @@ const Radar = function (size, radar) {
         .append('div')
         .attr('class', 'button ' + quadrant.order + ' full-view')
         .text(quadrant.quadrant.name())
-        .on('mouseover', mouseoverQuadrant.bind({}, quadrant.order))
-        .on('mouseout', mouseoutQuadrant.bind({}, quadrant.order))
-        .on('click', selectQuadrant.bind({}, quadrant.order, quadrant.startAngle))
+        .on('mouseover', mouseoverSector.bind({}, quadrant.order))
+        .on('mouseout', mouseoutSector.bind({}, quadrant.order))
+        .on('click', selectSector.bind({}, quadrant.order, quadrant.startAngle))
     }
 
     _.each([0, 1, 2, 3], function (i) {
-      addButton(quadrants[i])
+      addButton(sectors[i])
     })
 
     buttonsGroup
@@ -573,7 +573,7 @@ const Radar = function (size, radar) {
       .attr('placeholder', 'Search')
       .classed('search-radar', true)
 
-    AutoComplete('#auto-complete', quadrants, searchBlip)
+    AutoComplete('#auto-complete', sectors, searchBlip)
   }
 
   function plotRadarFooter() {
@@ -591,16 +591,16 @@ const Radar = function (size, radar) {
       )
   }
 
-  function mouseoverQuadrant(order) {
+  function mouseoverSector(order) {
     d3.select('.quadrant-group-' + order).style('opacity', 1)
     d3.selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').style('opacity', 0.3)
   }
 
-  function mouseoutQuadrant(order) {
+  function mouseoutSector(order) {
     d3.selectAll('.quadrant-group:not(.quadrant-group-' + order + ')').style('opacity', 1)
   }
 
-  function selectQuadrant(order, startAngle) {
+  function selectSector(order, startAngle) {
     d3.selectAll('.home-link').classed('selected', false)
     createHomeLink(d3.select('header'))
 
@@ -689,10 +689,10 @@ const Radar = function (size, radar) {
   }
 
   self.plot = function () {
-    var rings, quadrants, alternatives, currentSheet
+    var rings, sectors, alternatives, currentSheet
 
     rings = radar.rings()
-    quadrants = radar.quadrants()
+    sectors = radar.sectors()
     alternatives = radar.getAlternatives()
     currentSheet = radar.getCurrentSheet()
 
@@ -711,7 +711,7 @@ const Radar = function (size, radar) {
       plotAlternativeRadars(alternatives, currentSheet)
     }
 
-    plotQuadrantButtons(quadrants)
+    plotSectorButtons(sectors)
 
     radarElement.style('height', size + 14 + 'px')
     svg = radarElement.append('svg').call(tip)
@@ -720,8 +720,8 @@ const Radar = function (size, radar) {
       .attr('width', size)
       .attr('height', size + 14)
 
-    _.each(quadrants, function (quadrant) {
-      var quadrantGroup = plotQuadrant(rings, quadrant)
+    _.each(sectors, function (quadrant) {
+      var quadrantGroup = plotSector(rings, quadrant)
       plotLines(quadrantGroup, quadrant)
       plotTexts(quadrantGroup, rings, quadrant)
       plotBlips(quadrantGroup, rings, quadrant)

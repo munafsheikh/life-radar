@@ -1,4 +1,4 @@
-const Quadrant = function (name) {
+const Sector = function (name) {
   var self, blips
 
   self = {}
@@ -23,4 +23,4 @@ const Quadrant = function (name) {
   return self
 }
 
-module.exports = Quadrant
+module.exports = Sector

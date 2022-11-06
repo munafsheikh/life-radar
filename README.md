@@ -116,7 +116,7 @@ Paste the URL in the input field on the home page.
 
 That's it!
 
-**_Note:_** The quadrants of the radar, and the order of the rings inside the radar will be drawn in the order they appear in your data.
+**_Note:_** The sectors of the radar, and the order of the rings inside the radar will be drawn in the order they appear in your data.
 
 Check [this page](https://www.thoughtworks.com/radar/how-to-byor) for step by step guidance.
 

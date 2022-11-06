@@ -8,11 +8,11 @@ const _ = {
 }
 
 const Radar = function () {
-  var self, quadrants, blipNumber, addingQuadrant, alternatives, currentSheetName
+  var self, sectors, blipNumber, addingSector, alternatives, currentSheetName
 
   blipNumber = 0
-  addingQuadrant = 0
-  quadrants = [
+  addingSector = 0
+  sectors = [
     { order: 'first', startAngle: 90 },
     { order: 'second', startAngle: 0 },
     { order: 'third', startAngle: -90 },
@@ -44,25 +44,25 @@ const Radar = function () {
     return currentSheetName
   }
 
-  self.addQuadrant = function (quadrant) {
-    if (addingQuadrant >= 4) {
+  self.addSector = function (quadrant) {
+    if (addingSector >= 4) {
       throw new MalformedDataError(ExceptionMessages.TOO_MANY_QUADRANTS)
     }
-    quadrants[addingQuadrant].quadrant = quadrant
+    sectors[addingSector].quadrant = quadrant
     setNumbers(quadrant.blips())
-    addingQuadrant++
+    addingSector++
   }
 
-  function allQuadrants() {
-    if (addingQuadrant < 4) {
+  function allSectors() {
+    if (addingSector < 4) {
       throw new MalformedDataError(ExceptionMessages.LESS_THAN_FOUR_QUADRANTS)
     }
 
-    return _.map(quadrants, 'quadrant')
+    return _.map(sectors, 'quadrant')
   }
 
   function allBlips() {
-    return allQuadrants().reduce(function (blips, quadrant) {
+    return allSectors().reduce(function (blips, quadrant) {
       return blips.concat(quadrant.blips())
     }, [])
   }
@@ -83,8 +83,8 @@ const Radar = function () {
     )
   }
 
-  self.quadrants = function () {
-    return quadrants
+  self.sectors = function () {
+    return sectors
   }
 
   return self
