@@ -86,7 +86,7 @@ describe('Radar', function () {
 
     expect(function () {
       radar.addSector(new Sector('Fifth'))
-    }).toThrow(new MalformedDataError(ExceptionMessages.TOO_MANY_QUADRANTS))
+    }).toThrow(new MalformedDataError(ExceptionMessages.TOO_MANY_SECTORS))
   })
 
   it('throws an error if less than 4 sectors are added', function () {
@@ -103,7 +103,7 @@ describe('Radar', function () {
 
     expect(function () {
       radar.rings()
-    }).toThrow(new MalformedDataError(ExceptionMessages.LESS_THAN_FOUR_QUADRANTS))
+    }).toThrow(new MalformedDataError(ExceptionMessages.LESS_THAN_EIGHT_SECTORS))
   })
 
   describe('blip numbers', function () {

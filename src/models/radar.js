@@ -13,10 +13,14 @@ const Radar = function () {
   blipNumber = 0
   addingSector = 0
   sectors = [
-    { order: 'first', startAngle: 90 },
+    { order: 'first', startAngle: 45 },
     { order: 'second', startAngle: 0 },
-    { order: 'third', startAngle: -90 },
-    { order: 'fourth', startAngle: -180 },
+    { order: 'third', startAngle: -45 },
+    { order: 'fourth', startAngle: -90 },
+    { order: 'fifth', startAngle: 90 },
+    { order: 'sixth', startAngle: 135 },
+    { order: 'seventh', startAngle: -135 },
+    { order: 'eighth', startAngle: -180 },
   ]
   alternatives = []
   currentSheetName = ''
@@ -45,8 +49,8 @@ const Radar = function () {
   }
 
   self.addSector = function (sector) {
-    if (addingSector >= 4) {
-      throw new MalformedDataError(ExceptionMessages.TOO_MANY_QUADRANTS)
+    if (addingSector >= 8) {
+      throw new MalformedDataError(ExceptionMessages.TOO_MANY_SECTORS)
     }
     sectors[addingSector].sector = sector
     setNumbers(sector.blips())
@@ -54,8 +58,8 @@ const Radar = function () {
   }
 
   function allSectors() {
-    if (addingSector < 4) {
-      throw new MalformedDataError(ExceptionMessages.LESS_THAN_FOUR_QUADRANTS)
+    if (addingSector < 8) {
+      throw new MalformedDataError(ExceptionMessages.LESS_THAN_EIGHT_SECTORS)
     }
 
     return _.map(sectors, 'sector')
