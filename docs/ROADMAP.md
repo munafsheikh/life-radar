@@ -7,7 +7,8 @@ Life Radar has diverged from upstream Build Your Own Radar in the following ways
 - Refactored the 4-quadrant tech-radar model into an 8-sector wellness model (`Quadrant` → `Sector` across models, validators, and the renderer).
 - Defined the 8 wellness sectors: physical, intellectual, emotional, social, spiritual, vocational, financial, environmental, grounded in published wellness-dimension research (see README references).
 - Added sample wellness data (`test-data/LifeRadar-Vol1.csv`) alongside the original Thoughtworks tech radar sample, for testing/demo purposes.
-- Carried over upstream's Google Sheet / CSV / JSON data source support, Docker packaging, and CircleCI build/test/deploy pipeline largely unchanged.
+- Carried over upstream's Google Sheet / CSV / JSON data source support and Docker packaging.
+- Migrated CI/CD from CircleCI + AWS S3/CloudFront to GitHub Actions + Vercel (see [DEPLOYMENT.md](DEPLOYMENT.md)).
 - UI styling/buttons pass to adapt the look and feel toward the wellness use case.
 
 ## Near-term plans
@@ -21,7 +22,6 @@ Life Radar has diverged from upstream Build Your Own Radar in the following ways
 
 - [ ] Add a lightweight way to track radar snapshots over time (e.g. periodic CSV exports) so users can see how their wellness sectors shift, rather than only viewing a single point-in-time snapshot.
 - [ ] Reduce the Google OAuth/Sheets dependency surface for users who only want local file (CSV/JSON) based tracking — consider a simpler "drag and drop a CSV" flow.
-- [ ] Re-evaluate whether the CircleCI + AWS S3/CloudFront deployment pipeline is the right fit for this fork's scale, or whether a simpler static host (GitHub Pages, Netlify) reduces operational overhead — see [DEPLOYMENT.md](DEPLOYMENT.md).
 - [ ] Expand automated test coverage around the sector-rename refactor (`spec/models/sector-spec.js`, `spec/util/contentValidator-spec.js`) to lock in the 8-sector behavior as a regression guard.
 
 ## Longer-term / exploratory ideas

@@ -13,7 +13,7 @@ See [BUILD_AND_TEST.md](BUILD_AND_TEST.md) for environment setup, running the de
 3. Run `npm run quality` locally (lint + unit tests + coverage) before opening a PR — this is what CI gates on.
 4. Run `npm run lint-prettier:fix` to auto-fix style issues rather than hand-formatting.
 5. Open a pull request against `master` with a clear description of the change and why it's needed.
-6. CI (`tests` job in `.circleci/config.yml`) must pass. Deployment to dev/prod only happens off `master` after manual approval, and is unaffected by feature branches/PRs (see [DEPLOYMENT.md](DEPLOYMENT.md)).
+6. CI (the `CI` workflow, `.github/workflows/ci.yml`) must pass. Deployment to Vercel/Docker Hub only runs on pushes to `master` (see [DEPLOYMENT.md](DEPLOYMENT.md)) and is unaffected by feature branches/PRs.
 
 ## Code style
 

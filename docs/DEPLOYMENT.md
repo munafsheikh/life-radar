@@ -2,9 +2,65 @@
 
 Life Radar is a static, client-rendered single-page app — once built, `dist/` can be served by any static web server or CDN. There is no server-side component to deploy.
 
+## CI/CD (GitHub Actions)
+
+CI/CD runs on GitHub Actions, under `.github/workflows/`:
+
+- **`ci.yml`** — runs on every push and pull request. Installs dependencies and runs `npm run quality` (lint + unit tests with coverage).
+- **`e2e.yml`** — runs on push to `master`. Boots the dev server and runs the Cypress suite via `run_e2e_tests.sh`.
+- **`deploy.yml`** — runs on push to `master`. Builds and deploys the production bundle to [Vercel](#vercel) using the Vercel CLI.
+- **`docker-publish.yml`** — runs on push to `master`. Builds and pushes the Docker image via `docker_push.sh`.
+
+All four workflows are independent and run in parallel; nothing currently gates `deploy.yml`/`docker-publish.yml` on `ci.yml`/`e2e.yml` passing first. If you want a stricter gate, add `needs: [...]` between jobs or use GitHub's branch protection / required-status-checks settings on `master` instead.
+
+### Required GitHub secrets
+
+Set these under the repo's **Settings → Secrets and variables → Actions**:
+
+| Secret | Used by | Purpose |
+|---|---|---|
+| `VERCEL_TOKEN` | `deploy.yml` | Vercel CLI authentication |
+| `VERCEL_ORG_ID` | `deploy.yml` | Vercel org/team ID (`vercel link` or the project's Vercel dashboard settings) |
+| `VERCEL_PROJECT_ID` | `deploy.yml` | Vercel project ID |
+| `DEV_API_KEY`, `TESTING_CLIENT_ID` | `e2e.yml` | Google API key / OAuth client ID used by the e2e suite |
+| `DOCKER_USER`, `DOCKER_PASS` | `docker-publish.yml` | Docker Hub credentials |
+
+## Vercel
+
+The project deploys to [Vercel](https://vercel.com) as a static build, configured by `vercel.json`:
+
+```json
+{
+  "buildCommand": "npm run build:prod",
+  "outputDirectory": "dist"
+}
+```
+
+### One-time setup
+
+1. Create a Vercel project (via the Vercel dashboard, "Import Project", pointing at this GitHub repo — or `vercel link` locally) **without** enabling Vercel's own GitHub auto-deploy integration, since deploys are driven by `deploy.yml` instead.
+2. From the Vercel dashboard, grab the project's Org ID and Project ID (Project Settings → General), and create a personal/CI access token (Account Settings → Tokens).
+3. Add `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` as GitHub Actions secrets (see table above).
+4. Set any required build-time environment variables (`CLIENT_ID`, `API_KEY`, `GTM_ID`, `ENVIRONMENT=production`) as Vercel project environment variables, since `npm run build:prod` reads them from the environment during the Vercel build step.
+
+### Manual/local deploy
+
+```bash
+npm install -g vercel
+vercel pull --yes --environment=production --token=<your token>
+vercel build --prod --token=<your token>
+vercel deploy --prebuilt --prod --token=<your token>
+```
+
+### Preview deployments
+
+To get a preview deployment per pull request, either:
+- Enable Vercel's native Git integration for this repo (Vercel will then auto-deploy preview builds for PRs independently of `deploy.yml`), or
+- Add a second workflow triggered on `pull_request` that runs the same `vercel build`/`vercel deploy --prebuilt` steps without `--prod`.
+
 ## Docker
 
-The included `Dockerfile` builds the app and serves it via nginx.
+The included `Dockerfile` builds the app and serves it via nginx — useful for self-hosting outside Vercel, or for local development in a container.
 
 ```bash
 docker build -t life-radar .
@@ -18,50 +74,18 @@ What it does:
 
 A `.devcontainer/devcontainer.json` is provided so the same `Dockerfile` can be used as a VS Code Dev Container for local development.
 
-## Publishing the Docker image
+`docker_push.sh` (invoked by `.github/workflows/docker-publish.yml`) builds and pushes the image to Docker Hub, tagged as both `:latest` and `:<first 8 chars of the commit sha>`, to `wwwthoughtworks/build-your-own-radar` — update this repo name in the script if you publish under your own Docker Hub account/org.
 
-`docker_push.sh` builds and pushes the image to Docker Hub:
+## Deploying to any other static host
 
-```bash
-DOCKER_USER=... DOCKER_PASS=... CIRCLE_SHA1=<sha> ./docker_push.sh
-```
-
-It tags the image as both `:latest` and `:<first 8 chars of the commit sha>` and pushes both tags to `wwwthoughtworks/build-your-own-radar` (update this repo name if you publish under your own Docker Hub account/org).
-
-## CI/CD (CircleCI)
-
-CI is configured with two files, using CircleCI's dynamic config ("continuation") feature:
-
-- **`.circleci/config.yml`** — entry point for every push. Runs `tests` (`npm run quality`: lint + unit tests with coverage). If the trigger is not a pull request, it continues into `deployment-workflow.yml`.
-- **`.circleci/deployment-workflow.yml`** — runs only on `master` (non-PR) builds:
-  1. `e2e-tests` — Cypress suite against a local dev server.
-  2. `approve-dev-deployment` — **manual approval gate**.
-  3. `dev-deployment` — builds with dev credentials/feature flags and syncs `dist/` to an S3 bucket, then invalidates the corresponding CloudFront distribution.
-  4. `approve-prod-deployment` — **manual approval gate**.
-  5. `prod-deployment` — same S3/CloudFront flow with prod credentials, then builds and pushes the Docker image via `docker_push.sh`.
-
-Required CircleCI environment variables/contexts (set these in the CircleCI project settings, not in source):
-
-| Variable | Used for |
-|---|---|
-| `DEV_CLIENT_ID`, `DEV_GTM_ID`, `DEV_BUCKET_NAME`, `DEV_DISTRIBUTION_ID` | dev deployment build & S3/CloudFront target |
-| `PROD_CLIENT_ID`, `PROD_GTM_ID`, `PROD_BUCKET_NAME`, `PROD_DISTRIBUTION_ID` | prod deployment build & S3/CloudFront target |
-| `DEV_API_KEY`, `TESTING_CLIENT_ID`, `DEV_TEST_URL` | e2e test run against a live dev environment |
-| `DOCKER_USER`, `DOCKER_PASS` | Docker Hub push |
-| AWS credentials (consumed by the `aws-cli` orb) | S3 sync / CloudFront invalidation |
-
-## Deploying to your own static host
-
-Since the build output is static files, you can deploy `dist/` (from `npm run build:prod`) to any static host — S3 + CloudFront, GitHub Pages, Netlify, Vercel, nginx/Apache, etc. There's nothing CircleCI- or AWS-specific baked into the bundle itself; the CI workflow above is just the path this fork's maintainers chose.
-
-Two things to set at build time regardless of host:
+Since the build output is static files, `dist/` (from `npm run build:prod`) can be deployed to any static host — Netlify, GitHub Pages, S3 + CloudFront, nginx/Apache, etc. Two things to set at build time regardless of host:
 - `ENVIRONMENT=production` (selects feature toggles, see `src/config.js`)
 - `CLIENT_ID` / `API_KEY` (for Google Sheets OAuth/API access, see `src/util/googleAuth.js`) if you intend to support Google Sheets as a data source. CSV/JSON data sources don't require either.
 
 ## Self-hosting checklist
 
 - [ ] Decide on a data source strategy (Google Sheet vs. hosted CSV/JSON — see [EXTENDING.md](EXTENDING.md))
-- [ ] If using Google Sheets, register an OAuth client ID and set `CLIENT_ID`/`API_KEY` at build time
-- [ ] Run `npm run build:prod`
-- [ ] Serve `dist/` from your static host or the provided Docker image
-- [ ] Point users at `https://<your-host>/?sheetId=<your data source URL>`
+- [ ] If using Google Sheets, register an OAuth client ID and set `CLIENT_ID`/`API_KEY` as build environment variables
+- [ ] Set up the Vercel project and GitHub secrets (or choose an alternate static host)
+- [ ] Push to `master` and confirm `deploy.yml` succeeds
+- [ ] Point users at `https://<your-deployment>/?sheetId=<your data source URL>`
