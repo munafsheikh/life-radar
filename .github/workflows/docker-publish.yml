@@ -1,0 +1,16 @@
+name: Docker Publish
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  docker-publish:
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./docker_push.sh
