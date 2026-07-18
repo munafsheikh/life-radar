@@ -1,6 +1,15 @@
 const { test, expect } = require('@playwright/test')
 
-const sectors = ['Physical', 'Intellectual', 'Emotional', 'Social', 'Spiritual', 'Vocational', 'Financial', 'Environmental']
+const sectors = [
+  'Physical',
+  'Intellectual',
+  'Emotional',
+  'Social',
+  'Spiritual',
+  'Vocational',
+  'Financial',
+  'Environmental',
+]
 const rings = ['Adopt', 'Trial', 'Assess', 'Hold']
 
 function demoEntries() {
@@ -26,7 +35,9 @@ test.beforeEach(async function ({ page }) {
 
 test('renders eight sectors and keeps all entries inside their wedges', async function ({ page }) {
   const runtimeErrors = []
-  page.on('pageerror', function (error) { runtimeErrors.push(error.message) })
+  page.on('pageerror', function (error) {
+    runtimeErrors.push(error.message)
+  })
   await page.goto('/')
 
   await expect(page.locator('.sector-group')).toHaveCount(8)
