@@ -1,5 +1,6 @@
 const d3 = require('d3')
-const { default: d3tip } = require('d3-tip')
+const d3tipModule = require('d3-tip')
+const d3tip = d3tipModule.default || d3tipModule
 const Chance = require('chance')
 const _ = require('lodash/core')
 
@@ -467,9 +468,9 @@ const Radar = function (size, radar) {
     d3.selectAll('.sector-table').classed('selected', false)
     d3.selectAll('.home-link').classed('selected', false)
 
-    d3.selectAll('.sector-group').transition().duration(ANIMATION_DURATION).attr('transform', 'scale(1)')
+    d3.selectAll('.sector-group').attr('transform', 'scale(1)')
 
-    d3.selectAll('.sector-group .blip-link').transition().duration(ANIMATION_DURATION).attr('transform', 'scale(1)')
+    d3.selectAll('.sector-group .blip-link').attr('transform', 'scale(1)')
 
     d3.selectAll('.sector-group').style('pointer-events', 'auto').style('opacity', 1)
   }
@@ -602,6 +603,9 @@ const Radar = function (size, radar) {
   }
 
   function selectSector(order, startAngle) {
+    // Once the user interacts, D3 owns opacity and transforms. This prevents
+    // entrance animations from competing with focus and reset transitions.
+    svg.classed('interaction-started', true)
     d3.selectAll('.home-link').classed('selected', false)
     createHomeLink(d3.select('header'))
 
@@ -612,16 +616,11 @@ const Radar = function (size, radar) {
     d3.selectAll('.blip-item-description').classed('expanded', false)
 
     svg.style('left', '0').style('right', '0')
-    d3.select('.sector-group-' + order)
-      .transition()
-      .duration(ANIMATION_DURATION)
-      .attr('transform', 'scale(1)')
+    d3.select('.sector-group-' + order).attr('transform', 'scale(1)')
 
     d3.selectAll('.sector-group').style('pointer-events', 'auto')
 
     d3.selectAll('.sector-group:not(.sector-group-' + order + ')')
-      .transition()
-      .duration(ANIMATION_DURATION)
       .style('pointer-events', 'none')
       .style('opacity', 0)
 
