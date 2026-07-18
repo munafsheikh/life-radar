@@ -110,82 +110,82 @@ header {
 
     &.first {
       color: white;
-      background-color: $green;
+      background-color: $physical;
     }
 
     &.second {
       color: white;
-      background-color: $blue;
+      background-color: $intellectual;
     }
 
     &.third {
       color: white;
-      background-color: $orange;
+      background-color: $emotional;
     }
 
     &.fourth {
       color: white;
-      background-color: $violet;
+      background-color: $social;
     }
 
     &.fifth {
       color: white;
-      background-color: $green;
+      background-color: $spiritual;
     }
 
     &.sixth {
       color: white;
-      background-color: $blue;
+      background-color: $vocational;
     }
 
     &.seventh {
       color: white;
-      background-color: $orange;
+      background-color: $financial;
     }
 
     &.eighth {
       color: white;
-      background-color: $violet;
+      background-color: $environmental;
     }
   }
 
   &.full-view {
     &.first {
-      background-color: $green;
+      background-color: $physical;
       color: $white;
     }
 
     &.second {
-      background-color: $blue;
+      background-color: $intellectual;
       color: $white;
     }
 
     &.third {
-      background-color: $orange;
+      background-color: $emotional;
       color: $white;
     }
 
     &.fourth {
-      background-color: $violet;
+      background-color: $social;
       color: $white;
     }
     &.fifth {
-      background-color: $green;
+      background-color: $spiritual;
       color: $white;
     }
 
     &.sixth {
-      background-color: $blue;
+      background-color: $vocational;
       color: $white;
     }
 
     &.seventh {
-      background-color: $orange;
+      background-color: $financial;
       color: $white;
     }
 
     &.eighth {
-      background-color: $violet;
+      background-color: $environmental;
       color: $white;
     }
   }
