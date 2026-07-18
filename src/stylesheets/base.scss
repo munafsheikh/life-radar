@@ -14,7 +14,7 @@
 @import url(https://www.thoughtworks.com/css/k8s_production/screen.css);
 
 body {
-  font: 18px 'Open Sans';
+  font: 18px 'Avenir Next', 'Trebuchet MS', 'Inter', sans-serif;
   opacity: 0;
   @if $UIRefresh2022 {
     font-family: $baseFontFamily;
@@ -212,6 +212,8 @@ body {
       }
 
       path {
+        transition: filter 260ms ease, opacity 260ms ease, stroke-width 260ms ease;
+
         &.ring-arc-3 {
           stroke: none;
           fill: $grey-light;
@@ -271,10 +273,44 @@ body {
       .blip-link {
         text-decoration: none;
         cursor: pointer;
+        filter: drop-shadow(0 3px 3px rgba(15, 23, 42, 0.38));
+        animation: blip-arrive 600ms cubic-bezier(0.2, 0.9, 0.25, 1.15) both;
+        transform-box: fill-box;
+        transform-origin: center;
+
+        &:hover {
+          filter: drop-shadow(0 5px 5px rgba(15, 23, 42, 0.5));
+          transform: scale(1.16);
+        }
       }
 
       .sector-group {
         cursor: pointer;
+        filter: drop-shadow(0 7px 6px rgba(15, 23, 42, 0.22));
+        animation: sector-arrive 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        transform-box: fill-box;
+        transform-origin: center;
+        transition: filter 280ms ease, opacity 280ms ease, transform 280ms ease;
+
+        > path[class*='ring-arc'] {
+          stroke: rgba(255, 255, 255, 0.9);
+          stroke-width: 2.5px;
+          paint-order: stroke fill;
+        }
+
+        &:hover {
+          filter: drop-shadow(0 12px 9px rgba(15, 23, 42, 0.34));
+
+          > path[class*='ring-arc'] {
+            stroke-width: 4px;
+          }
+        }
+      }
+
+      @for $i from 1 through 8 {
+        .sector-group:nth-of-type(#{$i}) {
+          animation-delay: #{($i - 1) * 70}ms;
+        }
       }
 
       circle,
@@ -312,16 +348,26 @@ body {
 
       text {
         &.blip-text {
+          font-family: 'Arial Black', 'Avenir Next', sans-serif;
           font-size: 9px;
-          font-style: italic;
+          font-style: normal;
+          font-weight: 900;
           fill: $white;
+          paint-order: stroke fill;
+          stroke: rgba(15, 23, 42, 0.3);
+          stroke-width: 0.7px;
         }
 
         &.line-text {
-          font-weight: bold;
+          font-family: 'Arial Black', 'Avenir Next', sans-serif;
+          font-weight: 900;
           text-transform: uppercase;
-          fill: $black;
-          font-size: 7px;
+          letter-spacing: 0.07em;
+          fill: #111827;
+          font-size: 7.5px;
+          paint-order: stroke fill;
+          stroke: rgba(255, 255, 255, 0.82);
+          stroke-width: 1.8px;
         }
       }
     }
@@ -421,5 +467,35 @@ body {
         }
       }
     }
+  }
+}
+
+@keyframes sector-arrive {
+  from {
+    opacity: 0;
+    transform: scale(0.92) rotate(-1.5deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes blip-arrive {
+  from {
+    opacity: 0;
+    transform: scale(0.35);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #radar-plot .sector-group,
+  #radar-plot .blip-link {
+    animation: none !important;
+    transition: none !important;
   }
 }
