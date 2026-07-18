@@ -212,6 +212,43 @@ const JSONFile = function (url) {
   return self
 }
 
+const SupabaseRadar = function () {
+  var self = {}
+
+  self.build = function () {
+    const url =
+      process.env.SUPABASE_URL +
+      '/rest/v1/radar_entries?select=name,ring,sector,is_new,description&order=display_order.asc'
+
+    fetch(url, { headers: { apikey: process.env.SUPABASE_PUBLISHABLE_KEY } })
+      .then((response) => {
+        if (!response.ok) throw new Error('Unable to load Life Radar data')
+        return response.json()
+      })
+      .then((data) => {
+        const entries = data.map((entry) => ({
+          name: entry.name,
+          ring: entry.ring,
+          sector: entry.sector,
+          isNew: String(entry.is_new),
+          description: entry.description,
+        }))
+        var contentValidator = new ContentValidator(Object.keys(entries[0]))
+        contentValidator.verifyContent()
+        contentValidator.verifyHeaders()
+        plotRadar('Life Radar', _.map(entries, new InputSanitizer().sanitize), 'Supabase', [])
+      })
+      .catch((exception) => plotErrorMessage(exception, 'json'))
+  }
+
+  self.init = function () {
+    plotLoading()
+    return self
+  }
+
+  return self
+}
+
 const DomainName = function (url) {
   var search = /.+:\/\/([^\\/]+)/
   var match = search.exec(decodeURIComponent(url.replace(/\+/g, ' ')))
@@ -247,6 +284,9 @@ const GoogleSheetInput = function () {
       sheet = GoogleSheet(queryParams.sheetId, queryParams.sheetName)
       console.log(queryParams.sheetName)
 
+      sheet.init().build()
+    } else if (process.env.SUPABASE_URL && process.env.SUPABASE_PUBLISHABLE_KEY) {
+      sheet = SupabaseRadar()
       sheet.init().build()
     } else {
       if (!config.featureToggles.UIRefresh2022) {
