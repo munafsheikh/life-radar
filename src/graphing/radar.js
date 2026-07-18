@@ -185,9 +185,7 @@ const Radar = function (size, radar) {
     })
     var angleDelta = (Math.asin(Math.min(1, blip.width / 2 / radius)) * 180) / Math.PI
     angleDelta = Math.min(angleDelta, 20)
-    var angle = toRadian(
-      chance.floating({ min: startAngle - 45 + angleDelta, max: startAngle - angleDelta }),
-    )
+    var angle = toRadian(chance.floating({ min: startAngle - 45 + angleDelta, max: startAngle - angleDelta }))
 
     var x = center() + radius * Math.sin(angle)
     var y = center() - radius * Math.cos(angle)
@@ -602,7 +600,7 @@ const Radar = function (size, radar) {
     d3.selectAll('.sector-group:not(.sector-group-' + order + ')').style('opacity', 1)
   }
 
-  function selectSector(order, startAngle) {
+  function selectSector(order) {
     // Once the user interacts, D3 owns opacity and transforms. This prevents
     // entrance animations from competing with focus and reset transitions.
     svg.classed('interaction-started', true)
