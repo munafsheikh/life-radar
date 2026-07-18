@@ -304,7 +304,7 @@ body {
         text-decoration: none;
         cursor: pointer;
         filter: drop-shadow(0 3px 3px rgba(15, 23, 42, 0.38));
-        animation: blip-arrive 600ms cubic-bezier(0.2, 0.9, 0.25, 1.15) both;
+        animation: blip-arrive 600ms cubic-bezier(0.2, 0.9, 0.25, 1.15);
         transform-box: fill-box;
         transform-origin: center;
 
@@ -317,7 +317,7 @@ body {
       .sector-group {
         cursor: pointer;
         filter: drop-shadow(0 7px 6px rgba(15, 23, 42, 0.22));
-        animation: sector-arrive 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        animation: sector-arrive 720ms cubic-bezier(0.16, 1, 0.3, 1);
         transform-box: fill-box;
         transform-origin: center;
         transition: filter 280ms ease, opacity 280ms ease, transform 280ms ease;
@@ -340,6 +340,13 @@ body {
       @for $i from 1 through 8 {
         .sector-group:nth-of-type(#{$i}) {
           animation-delay: #{($i - 1) * 70}ms;
+        }
+      }
+
+      &.interaction-started {
+        .sector-group,
+        .blip-link {
+          animation: none;
         }
       }
 
