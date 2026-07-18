@@ -12,10 +12,20 @@ const Ring = require('../../src/models/ring')
 const Blip = require('../../src/models/blip')
 
 window.SVGSVGElement.prototype.createSVGPoint = function () {
-  return { x: 0, y: 0, matrixTransform: function () { return this } }
+  return {
+    x: 0,
+    y: 0,
+    matrixTransform: function () {
+      return this
+    },
+  }
 }
 window.SVGElement.prototype.getScreenCTM = function () {
-  return { inverse: function () { return this } }
+  return {
+    inverse: function () {
+      return this
+    },
+  }
 }
 
 describe('eight-sector radar interactions', function () {
@@ -25,13 +35,20 @@ describe('eight-sector radar interactions', function () {
     const ring = new Ring('Adopt', 0)
     const result = new Radar()
 
-    ;['Physical', 'Intellectual', 'Emotional', 'Social', 'Spiritual', 'Vocational', 'Financial', 'Environmental'].forEach(
-      function (name) {
-        const sector = new Sector(name)
-        sector.add(new Blip(name + ' entry', ring, false))
-        result.addSector(sector)
-      },
-    )
+    ;[
+      'Physical',
+      'Intellectual',
+      'Emotional',
+      'Social',
+      'Spiritual',
+      'Vocational',
+      'Financial',
+      'Environmental',
+    ].forEach(function (name) {
+      const sector = new Sector(name)
+      sector.add(new Blip(name + ' entry', ring, false))
+      result.addSector(sector)
+    })
 
     return result
   }
