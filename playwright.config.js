@@ -16,6 +16,6 @@ module.exports = defineConfig({
   },
   projects: [
     { name: 'desktop-chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'mobile-chromium', use: { ...devices['Pixel 7'] } },
+    { name: 'mobile-chromium', use: { browserName: 'chromium', viewport: { width: 412, height: 915 } } },
   ],
 })
