@@ -15,13 +15,13 @@
 
 Whatever the source (Google Sheet, CSV, or JSON), each row/record needs these fields (see `src/util/contentValidator.js` for the enforced header set, and `test-data/LifeRadar-Vol1.csv` for a worked example):
 
-| Column | Description |
-|---|---|
-| `name` | Label for the item/blip |
-| `ring` | Which ring it belongs to, e.g. `Adopt`, `Trial`, `Assess`, `Hold` (max 4 distinct ring values per radar — see `MalformedDataError` / `TOO_MANY_RINGS` in `src/common.js`) |
-| `sector` (was `quadrant` upstream) | Which of the 8 wellness sectors the item belongs to |
-| `isNew` | `TRUE`/`FALSE` — whether to flag the blip as new |
-| `description` | HTML description shown on click/hover, sanitized via `sanitize-html` |
+| Column                             | Description                                                                                                                                                               |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`                             | Label for the item/blip                                                                                                                                                   |
+| `ring`                             | Which ring it belongs to, e.g. `Adopt`, `Trial`, `Assess`, `Hold` (max 4 distinct ring values per radar — see `MalformedDataError` / `TOO_MANY_RINGS` in `src/common.js`) |
+| `sector` (was `quadrant` upstream) | Which of the 8 wellness sectors the item belongs to                                                                                                                       |
+| `isNew`                            | `TRUE`/`FALSE` — whether to flag the blip as new                                                                                                                          |
+| `description`                      | HTML description shown on click/hover, sanitized via `sanitize-html`                                                                                                      |
 
 CSV example:
 
