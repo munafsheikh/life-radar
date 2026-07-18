@@ -602,6 +602,9 @@ const Radar = function (size, radar) {
   }
 
   function selectSector(order, startAngle) {
+    // Once the user interacts, D3 owns opacity and transforms. This prevents
+    // entrance animations from competing with focus and reset transitions.
+    svg.classed('interaction-started', true)
     d3.selectAll('.home-link').classed('selected', false)
     createHomeLink(d3.select('header'))
 
