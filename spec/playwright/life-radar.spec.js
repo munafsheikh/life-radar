@@ -75,10 +75,16 @@ test('focus hides seven sectors and home restores eight', async function ({ page
 
   const hidden = page.locator('.sector-group:not(.sector-group-third)')
   await expect(hidden).toHaveCount(7)
-  for (let index = 0; index < 7; index++) await expect(hidden.nth(index)).toBeHidden()
+  for (let index = 0; index < 7; index++) {
+    await expect(hidden.nth(index)).toHaveCSS('opacity', '0')
+    await expect(hidden.nth(index)).toHaveCSS('pointer-events', 'none')
+  }
 
   await page.locator('.home-link').click()
-  for (let index = 0; index < 8; index++) await expect(page.locator('.sector-group').nth(index)).toBeVisible()
+  for (let index = 0; index < 8; index++) {
+    await expect(page.locator('.sector-group').nth(index)).toHaveCSS('opacity', '1')
+    await expect(page.locator('.sector-group').nth(index)).toHaveCSS('pointer-events', 'auto')
+  }
   await expect(page.locator('.sector-table.selected')).toHaveCount(0)
 })
 
