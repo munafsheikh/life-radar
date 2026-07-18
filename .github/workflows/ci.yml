@@ -16,3 +16,5 @@ jobs:
           cache: 'npm'
       - run: npm install
       - run: npm run quality
+      - run: npx -y @playwright/test@1.61.1 install --with-deps chromium
+      - run: npm run test:visual
