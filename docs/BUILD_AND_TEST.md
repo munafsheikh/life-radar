@@ -51,12 +51,12 @@ npm run quality
 
 ### Test layout
 
-| Path | Covers |
-|---|---|
-| `spec/models/*-spec.js` | `Blip`, `Radar`, `Ring`, `Sector` models |
-| `spec/util/*-spec.js` | `contentValidator`, `inputSanitizer`, `queryParamProcessor`, `ringCalculator`, `sheet` |
-| `spec/graphing/ref-table-spec.js` | radar legend/reference table rendering |
-| `spec/helpers/jsdom.js` | jsdom environment setup for DOM-dependent specs |
+| Path                              | Covers                                                                                 |
+| --------------------------------- | -------------------------------------------------------------------------------------- |
+| `spec/models/*-spec.js`           | `Blip`, `Radar`, `Ring`, `Sector` models                                               |
+| `spec/util/*-spec.js`             | `contentValidator`, `inputSanitizer`, `queryParamProcessor`, `ringCalculator`, `sheet` |
+| `spec/graphing/ref-table-spec.js` | radar legend/reference table rendering                                                 |
+| `spec/helpers/jsdom.js`           | jsdom environment setup for DOM-dependent specs                                        |
 
 `package.json`'s `standard.ignore` list (`radar-spec.js`, `ref-table-spec.js`) excludes those two specs from the standard/eslint code-style check, since they contain intentionally unconventional test fixtures.
 

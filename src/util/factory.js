@@ -69,7 +69,9 @@ const plotRadar = function (title, blips, currentRadarName, alternativeRadars) {
     radar.setCurrentSheet(currentRadarName)
   }
 
-  var size = window.innerHeight - 133 < 620 ? 620 : window.innerHeight - 133
+  var availableHeight = Math.max(620, window.innerHeight - 133)
+  var availableWidth = window.innerWidth * 0.76
+  var size = Math.max(300, Math.min(availableHeight, availableWidth))
 
   new GraphingRadar(size, radar).init().plot()
 }

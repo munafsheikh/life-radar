@@ -20,8 +20,12 @@ body {
   position: relative;
   isolation: isolate;
   background-color: #f4fffb;
-  background-image:
-    radial-gradient(circle at 8% 12%, rgba(56, 189, 248, 0.2) 0, rgba(56, 189, 248, 0.08) 12rem, transparent 24rem),
+  background-image: radial-gradient(
+      circle at 8% 12%,
+      rgba(56, 189, 248, 0.2) 0,
+      rgba(56, 189, 248, 0.08) 12rem,
+      transparent 24rem
+    ),
     radial-gradient(circle at 92% 17%, rgba(251, 113, 133, 0.17) 0, rgba(251, 113, 133, 0.06) 11rem, transparent 23rem),
     radial-gradient(circle at 84% 82%, rgba(139, 92, 246, 0.14) 0, transparent 24rem),
     radial-gradient(circle at 14% 88%, rgba(34, 197, 94, 0.18) 0, transparent 26rem),
@@ -266,45 +270,109 @@ body {
 
         // Each 45-degree sector has its own hue; rings move from saturated
         // at the centre to pale at the edge.
-        &.sector-first.ring-arc-0 { fill: #ef4444; }
-        &.sector-first.ring-arc-1 { fill: #f87171; }
-        &.sector-first.ring-arc-2 { fill: #fca5a5; }
-        &.sector-first.ring-arc-3 { fill: #fee2e2; }
-        &.sector-second.ring-arc-0 { fill: #4f46e5; }
-        &.sector-second.ring-arc-1 { fill: #6366f1; }
-        &.sector-second.ring-arc-2 { fill: #a5b4fc; }
-        &.sector-second.ring-arc-3 { fill: #e0e7ff; }
-        &.sector-third.ring-arc-0 { fill: #f59e0b; }
-        &.sector-third.ring-arc-1 { fill: #fbbf24; }
-        &.sector-third.ring-arc-2 { fill: #fcd34d; }
-        &.sector-third.ring-arc-3 { fill: #fef3c7; }
-        &.sector-fourth.ring-arc-0 { fill: #ec4899; }
-        &.sector-fourth.ring-arc-1 { fill: #f472b6; }
-        &.sector-fourth.ring-arc-2 { fill: #f9a8d4; }
-        &.sector-fourth.ring-arc-3 { fill: #fce7f3; }
-        &.sector-fifth.ring-arc-0 { fill: #8b5cf6; }
-        &.sector-fifth.ring-arc-1 { fill: #a78bfa; }
-        &.sector-fifth.ring-arc-2 { fill: #c4b5fd; }
-        &.sector-fifth.ring-arc-3 { fill: #ede9fe; }
-        &.sector-sixth.ring-arc-0 { fill: #0ea5e9; }
-        &.sector-sixth.ring-arc-1 { fill: #38bdf8; }
-        &.sector-sixth.ring-arc-2 { fill: #7dd3fc; }
-        &.sector-sixth.ring-arc-3 { fill: #e0f2fe; }
-        &.sector-seventh.ring-arc-0 { fill: #14b8a6; }
-        &.sector-seventh.ring-arc-1 { fill: #2dd4bf; }
-        &.sector-seventh.ring-arc-2 { fill: #5eead4; }
-        &.sector-seventh.ring-arc-3 { fill: #ccfbf1; }
-        &.sector-eighth.ring-arc-0 { fill: #22c55e; }
-        &.sector-eighth.ring-arc-1 { fill: #4ade80; }
-        &.sector-eighth.ring-arc-2 { fill: #86efac; }
-        &.sector-eighth.ring-arc-3 { fill: #dcfce7; }
+        &.sector-first.ring-arc-0 {
+          fill: #ef4444;
+        }
+        &.sector-first.ring-arc-1 {
+          fill: #f87171;
+        }
+        &.sector-first.ring-arc-2 {
+          fill: #fca5a5;
+        }
+        &.sector-first.ring-arc-3 {
+          fill: #fee2e2;
+        }
+        &.sector-second.ring-arc-0 {
+          fill: #4f46e5;
+        }
+        &.sector-second.ring-arc-1 {
+          fill: #6366f1;
+        }
+        &.sector-second.ring-arc-2 {
+          fill: #a5b4fc;
+        }
+        &.sector-second.ring-arc-3 {
+          fill: #e0e7ff;
+        }
+        &.sector-third.ring-arc-0 {
+          fill: #f59e0b;
+        }
+        &.sector-third.ring-arc-1 {
+          fill: #fbbf24;
+        }
+        &.sector-third.ring-arc-2 {
+          fill: #fcd34d;
+        }
+        &.sector-third.ring-arc-3 {
+          fill: #fef3c7;
+        }
+        &.sector-fourth.ring-arc-0 {
+          fill: #ec4899;
+        }
+        &.sector-fourth.ring-arc-1 {
+          fill: #f472b6;
+        }
+        &.sector-fourth.ring-arc-2 {
+          fill: #f9a8d4;
+        }
+        &.sector-fourth.ring-arc-3 {
+          fill: #fce7f3;
+        }
+        &.sector-fifth.ring-arc-0 {
+          fill: #8b5cf6;
+        }
+        &.sector-fifth.ring-arc-1 {
+          fill: #a78bfa;
+        }
+        &.sector-fifth.ring-arc-2 {
+          fill: #c4b5fd;
+        }
+        &.sector-fifth.ring-arc-3 {
+          fill: #ede9fe;
+        }
+        &.sector-sixth.ring-arc-0 {
+          fill: #0ea5e9;
+        }
+        &.sector-sixth.ring-arc-1 {
+          fill: #38bdf8;
+        }
+        &.sector-sixth.ring-arc-2 {
+          fill: #7dd3fc;
+        }
+        &.sector-sixth.ring-arc-3 {
+          fill: #e0f2fe;
+        }
+        &.sector-seventh.ring-arc-0 {
+          fill: #14b8a6;
+        }
+        &.sector-seventh.ring-arc-1 {
+          fill: #2dd4bf;
+        }
+        &.sector-seventh.ring-arc-2 {
+          fill: #5eead4;
+        }
+        &.sector-seventh.ring-arc-3 {
+          fill: #ccfbf1;
+        }
+        &.sector-eighth.ring-arc-0 {
+          fill: #22c55e;
+        }
+        &.sector-eighth.ring-arc-1 {
+          fill: #4ade80;
+        }
+        &.sector-eighth.ring-arc-2 {
+          fill: #86efac;
+        }
+        &.sector-eighth.ring-arc-3 {
+          fill: #dcfce7;
+        }
       }
 
       .blip-link {
         text-decoration: none;
         cursor: pointer;
         filter: drop-shadow(0 3px 3px rgba(15, 23, 42, 0.38));
-        animation: blip-arrive 600ms cubic-bezier(0.2, 0.9, 0.25, 1.15) both;
+        animation: blip-arrive 600ms cubic-bezier(0.2, 0.9, 0.25, 1.15);
         transform-box: fill-box;
         transform-origin: center;
 
@@ -317,7 +385,7 @@ body {
       .sector-group {
         cursor: pointer;
         filter: drop-shadow(0 7px 6px rgba(15, 23, 42, 0.22));
-        animation: sector-arrive 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        animation: sector-arrive 720ms cubic-bezier(0.16, 1, 0.3, 1);
         transform-box: fill-box;
         transform-origin: center;
         transition: filter 280ms ease, opacity 280ms ease, transform 280ms ease;
@@ -340,6 +408,13 @@ body {
       @for $i from 1 through 8 {
         .sector-group:nth-of-type(#{$i}) {
           animation-delay: #{($i - 1) * 70}ms;
+        }
+      }
+
+      &.interaction-started {
+        .sector-group,
+        .blip-link {
+          animation: none;
         }
       }
 
@@ -366,10 +441,22 @@ body {
           stroke: none;
         }
 
-        &.fifth { fill: darken($spiritual, 18%); stroke: none; }
-        &.sixth { fill: darken($vocational, 18%); stroke: none; }
-        &.seventh { fill: darken($financial, 18%); stroke: none; }
-        &.eighth { fill: darken($environmental, 18%); stroke: none; }
+        &.fifth {
+          fill: darken($spiritual, 18%);
+          stroke: none;
+        }
+        &.sixth {
+          fill: darken($vocational, 18%);
+          stroke: none;
+        }
+        &.seventh {
+          fill: darken($financial, 18%);
+          stroke: none;
+        }
+        &.eighth {
+          fill: darken($environmental, 18%);
+          stroke: none;
+        }
       }
 
       line {

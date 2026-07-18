@@ -38,11 +38,9 @@ const plugins = [
     'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
     'process.env.ENABLE_GOOGLE_AUTH': JSON.stringify(process.env.ENABLE_GOOGLE_AUTH),
     'process.env.GTM_ID': JSON.stringify(process.env.GTM_ID),
-    'process.env.SUPABASE_URL': JSON.stringify(
-      process.env.SUPABASE_URL || 'https://zooyilmsocuqannpjhsw.supabase.co'
-    ),
+    'process.env.SUPABASE_URL': JSON.stringify(process.env.SUPABASE_URL || 'https://zooyilmsocuqannpjhsw.supabase.co'),
     'process.env.SUPABASE_PUBLISHABLE_KEY': JSON.stringify(
-      process.env.SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_LnHNJWt-rhyq0xq4hcJh-Q_Nc-nxR5W'
+      process.env.SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_LnHNJWt-rhyq0xq4hcJh-Q_Nc-nxR5W',
     ),
   }),
 ]

@@ -23,7 +23,7 @@ See [BUILD_AND_TEST.md](BUILD_AND_TEST.md) for environment setup, running the de
 
 ## Commit messages
 
-Write commit messages that explain *why* a change was made, not just what changed. Keep the subject line short; use the body for context if needed.
+Write commit messages that explain _why_ a change was made, not just what changed. Keep the subject line short; use the body for context if needed.
 
 ## Tests
 
