@@ -17,8 +17,12 @@ header {
 }
 
 .radar-title {
-  background-color: $grey-light;
+  background:
+    radial-gradient(circle at 18% 10%, rgba(255, 255, 255, 0.9), transparent 32%),
+    linear-gradient(115deg, rgba(224, 242, 254, 0.9), rgba(220, 252, 231, 0.82) 48%, rgba(252, 231, 243, 0.78));
   padding: 30px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 10px 30px rgba(14, 116, 144, 0.1);
 
   display: table;
   margin: auto;
@@ -77,6 +81,14 @@ header {
 
 .buttons-group {
   padding: 15px 0 25px;
+  margin: 12px auto 22px;
+  width: min(92%, 1180px);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: 0 12px 34px rgba(14, 116, 144, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .home-link {
