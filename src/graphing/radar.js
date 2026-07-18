@@ -46,33 +46,15 @@ const Radar = function (size, radar) {
   }
 
   function plotLines(sectorGroup, sector) {
-    var startX = size * (1 - (-Math.sin(toRadian(sector.startAngle)) + 1) / 2)
-    var endX = size * (1 - (-Math.sin(toRadian(sector.startAngle - 45)) + 1) / 2)
-
-    var startY = size * (1 - (Math.cos(toRadian(sector.startAngle)) + 1) / 2)
-    var endY = size * (1 - (Math.cos(toRadian(sector.startAngle - 45)) + 1) / 2)
-
-    if (startY > endY) {
-      var aux = endY
-      endY = startY
-      startY = aux
-    }
-
+    var angle = toRadian(sector.startAngle)
+    var radius = ringCalculator.getRadius(radar.rings().length)
     sectorGroup
       .append('line')
       .attr('x1', center())
-      .attr('x2', center())
-      .attr('y1', startY - 2)
-      .attr('y2', endY + 2)
-      .attr('stroke-width', 10)
-
-    sectorGroup
-      .append('line')
-      .attr('x1', endX)
       .attr('y1', center())
-      .attr('x2', startX)
-      .attr('y2', center())
-      .attr('stroke-width', 10)
+      .attr('x2', center() + radius * Math.sin(angle))
+      .attr('y2', center() - radius * Math.cos(angle))
+      .attr('stroke-width', 6)
   }
 
   function plotSector(rings, sector) {
@@ -94,7 +76,7 @@ const Radar = function (size, radar) {
       sectorGroup
         .append('path')
         .attr('d', arc)
-        .attr('class', 'ring-arc-' + ring.order())
+        .attr('class', 'sector-' + sector.order + ' ring-arc-' + ring.order())
         .attr('transform', 'translate(' + center() + ', ' + center() + ')')
     })
 
@@ -196,19 +178,18 @@ const Radar = function (size, radar) {
   }
 
   function calculateBlipCoordinates(blip, chance, minRadius, maxRadius, startAngle) {
-    var adjustX = Math.sin(toRadian(startAngle)) - Math.cos(toRadian(startAngle))
-    var adjustY = -Math.cos(toRadian(startAngle)) - Math.sin(toRadian(startAngle))
-
     var radius = chance.floating({
       min: minRadius + blip.width / 2,
       max: maxRadius - blip.width / 2,
     })
-    var angleDelta = (Math.asin(blip.width / 2 / radius) * 180) / (Math.PI - 1.25)
-    angleDelta = angleDelta > 45 ? 45 : angleDelta
-    var angle = toRadian(chance.integer({ min: angleDelta, max: 90 - angleDelta }))
+    var angleDelta = (Math.asin(Math.min(1, blip.width / 2 / radius)) * 180) / Math.PI
+    angleDelta = Math.min(angleDelta, 20)
+    var angle = toRadian(
+      chance.floating({ min: startAngle - 45 + angleDelta, max: startAngle - angleDelta }),
+    )
 
-    var x = center() + radius * Math.cos(angle) * adjustX
-    var y = center() + radius * Math.sin(angle) * adjustY
+    var x = center() + radius * Math.sin(angle)
+    var y = center() - radius * Math.cos(angle)
 
     return [x, y]
   }
@@ -490,7 +471,7 @@ const Radar = function (size, radar) {
 
     d3.selectAll('.sector-group .blip-link').transition().duration(ANIMATION_DURATION).attr('transform', 'scale(1)')
 
-    d3.selectAll('.sector-group').style('pointer-events', 'auto')
+    d3.selectAll('.sector-group').style('pointer-events', 'auto').style('opacity', 1)
   }
 
   function searchBlip(_e, ui) {
@@ -630,36 +611,11 @@ const Radar = function (size, radar) {
     d3.selectAll('.sector-table.' + order).classed('selected', true)
     d3.selectAll('.blip-item-description').classed('expanded', false)
 
-    var scale = 2
-
-    var adjustX = Math.sin(toRadian(startAngle)) - Math.cos(toRadian(startAngle))
-    var adjustY = Math.cos(toRadian(startAngle)) + Math.sin(toRadian(startAngle))
-
-    var translateX = ((-1 * (1 + adjustX) * size) / 2) * (scale - 1) + -adjustX * (1 - scale / 2) * size
-    var translateY = -1 * (1 - adjustY) * (size / 2 - 7) * (scale - 1) - ((1 - adjustY) / 2) * (1 - scale / 2) * size
-
-    var translateXAll = (((1 - adjustX) / 2) * size * scale) / 2 + ((1 - adjustX) / 2) * (1 - scale / 2) * size
-    var translateYAll = (((1 + adjustY) / 2) * size * scale) / 2
-
-    var moveRight = ((1 + adjustX) * (0.8 * window.innerWidth - size)) / 2
-    var moveLeft = ((1 - adjustX) * (0.8 * window.innerWidth - size)) / 2
-
-    var blipScale = 3 / 4
-    var blipTranslate = (1 - blipScale) / blipScale
-
-    svg.style('left', moveLeft + 'px').style('right', moveRight + 'px')
+    svg.style('left', '0').style('right', '0')
     d3.select('.sector-group-' + order)
       .transition()
       .duration(ANIMATION_DURATION)
-      .attr('transform', 'translate(' + translateX + ',' + translateY + ')scale(' + scale + ')')
-    d3.selectAll('.sector-group-' + order + ' .blip-link text').each(function () {
-      var x = d3.select(this).attr('x')
-      var y = d3.select(this).attr('y')
-      d3.select(this.parentNode)
-        .transition()
-        .duration(ANIMATION_DURATION)
-        .attr('transform', 'scale(' + blipScale + ')translate(' + blipTranslate * x + ',' + blipTranslate * y + ')')
-    })
+      .attr('transform', 'scale(1)')
 
     d3.selectAll('.sector-group').style('pointer-events', 'auto')
 
@@ -667,7 +623,7 @@ const Radar = function (size, radar) {
       .transition()
       .duration(ANIMATION_DURATION)
       .style('pointer-events', 'none')
-      .attr('transform', 'translate(' + translateXAll + ',' + translateYAll + ')scale(0)')
+      .style('opacity', 0)
 
     if (d3.select('.legend.legend-' + order).empty()) {
       drawLegend(order)
