@@ -10,6 +10,7 @@ Life Radar has diverged from upstream Build Your Own Radar in the following ways
 - Carried over upstream's Google Sheet / CSV / JSON data source support and Docker packaging.
 - Migrated CI/CD from CircleCI + AWS S3/CloudFront to GitHub Actions + Vercel (see [DEPLOYMENT.md](DEPLOYMENT.md)).
 - UI styling/buttons pass to adapt the look and feel toward the wellness use case.
+- Added a Supabase-backed data source as the production default (no `sheetId` needed), covering three datasets — `personal`, `team`, `family` — selected via `?dataset=`. `data/*-radar.csv` is the source of truth, synced nightly into Supabase by `scripts/sync-radar-data.js` via `.github/workflows/sync-data.yml` (see [DEPLOYMENT.md](DEPLOYMENT.md#supabase-data-source)).
 
 ## Near-term plans
 
@@ -26,9 +27,10 @@ Life Radar has diverged from upstream Build Your Own Radar in the following ways
 
 ## Longer-term / exploratory ideas
 
-- [ ] Personal history/trends view, distinct from the single live radar (would require some form of persistence, which the project currently has none of by design).
-- [ ] Guided onboarding for first-time users to fill in their own 8-sector data without needing to hand-edit a spreadsheet.
+- [ ] Personal history/trends view, distinct from the single live radar — now that Supabase provides persistence, this could snapshot `radar_entries` over time instead of requiring a new mechanism from scratch.
+- [ ] Guided onboarding for first-time users to fill in their own 8-sector data without needing to hand-edit a spreadsheet (or a CSV in `data/`).
 - [ ] Mobile-friendly interaction model for the radar visualization (currently desktop/SVG-hover oriented).
+- [ ] Authenticated editing UI so `radar_entries` can be updated directly instead of only through `data/*-radar.csv` + the nightly sync.
 
 ## How to propose roadmap changes
 

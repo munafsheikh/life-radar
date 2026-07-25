@@ -214,13 +214,16 @@ const JSONFile = function (url) {
   return self
 }
 
-const SupabaseRadar = function () {
+const SupabaseRadar = function (dataset) {
   var self = {}
 
   self.build = function () {
     const url =
       process.env.SUPABASE_URL +
-      '/rest/v1/radar_entries?select=name,ring,sector,is_new,description&order=display_order.asc'
+      '/rest/v1/radar_entries?select=name,ring,sector,is_new,description' +
+      '&dataset=eq.' +
+      encodeURIComponent(dataset) +
+      '&order=display_order.asc'
 
     fetch(url, { headers: { apikey: process.env.SUPABASE_PUBLISHABLE_KEY } })
       .then((response) => {
@@ -288,7 +291,9 @@ const GoogleSheetInput = function () {
 
       sheet.init().build()
     } else if (process.env.SUPABASE_URL && process.env.SUPABASE_PUBLISHABLE_KEY) {
-      sheet = SupabaseRadar()
+      var datasetQueryString = window.location.href.match(/dataset(.*)/)
+      var datasetParams = datasetQueryString ? QueryParams(datasetQueryString[0]) : {}
+      sheet = SupabaseRadar(datasetParams.dataset || 'personal')
       sheet.init().build()
     } else {
       if (!config.featureToggles.UIRefresh2022) {

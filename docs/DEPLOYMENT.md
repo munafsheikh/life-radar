@@ -1,6 +1,6 @@
 # Deployment
 
-Life Radar is a static, client-rendered single-page app — once built, `dist/` can be served by any static web server or CDN. There is no server-side component to deploy.
+Life Radar is a static, client-rendered single-page app — once built, `dist/` can be served by any static web server or CDN. There is no server-side component to deploy, but the production deployment does depend on a Supabase project as its default data source (see [Supabase data source](#supabase-data-source) below).
 
 ## CI/CD (GitHub Actions)
 
@@ -10,6 +10,7 @@ CI/CD runs on GitHub Actions, under `.github/workflows/`:
 - **`e2e.yml`** — runs on push to `master`. Boots the dev server and runs the Cypress suite via `run_e2e_tests.sh`.
 - **`deploy.yml`** — runs on push to `master`. Builds and deploys the production bundle to [Vercel](#vercel) using the Vercel CLI.
 - **`docker-publish.yml`** — runs on push to `master`. Builds and pushes the Docker image via `docker_push.sh`.
+- **`sync-data.yml`** — runs nightly on a schedule (and on-demand via `workflow_dispatch`). Upserts `data/*-radar.csv` into the Supabase `radar_entries` table and redeploys production. See [Supabase data source](#supabase-data-source).
 
 All four workflows are independent and run in parallel; nothing currently gates `deploy.yml`/`docker-publish.yml` on `ci.yml`/`e2e.yml` passing first. If you want a stricter gate, add `needs: [...]` between jobs or use GitHub's branch protection / required-status-checks settings on `master` instead.
 
@@ -17,13 +18,29 @@ All four workflows are independent and run in parallel; nothing currently gates 
 
 Set these under the repo's **Settings → Secrets and variables → Actions**:
 
-| Secret                             | Used by              | Purpose                                                                       |
-| ---------------------------------- | -------------------- | ----------------------------------------------------------------------------- |
-| `VERCEL_TOKEN`                     | `deploy.yml`         | Vercel CLI authentication                                                     |
-| `VERCEL_ORG_ID`                    | `deploy.yml`         | Vercel org/team ID (`vercel link` or the project's Vercel dashboard settings) |
-| `VERCEL_PROJECT_ID`                | `deploy.yml`         | Vercel project ID                                                             |
-| `DEV_API_KEY`, `TESTING_CLIENT_ID` | `e2e.yml`            | Google API key / OAuth client ID used by the e2e suite                        |
-| `DOCKER_USER`, `DOCKER_PASS`       | `docker-publish.yml` | Docker Hub credentials                                                        |
+| Secret                             | Used by              | Purpose                                                                                                                                       |
+| ---------------------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `VERCEL_TOKEN`                     | `deploy.yml`         | Vercel CLI authentication                                                                                                                     |
+| `VERCEL_ORG_ID`                    | `deploy.yml`         | Vercel org/team ID (`vercel link` or the project's Vercel dashboard settings)                                                                 |
+| `VERCEL_PROJECT_ID`                | `deploy.yml`         | Vercel project ID                                                                                                                             |
+| `DEV_API_KEY`, `TESTING_CLIENT_ID` | `e2e.yml`            | Google API key / OAuth client ID used by the e2e suite                                                                                        |
+| `DOCKER_USER`, `DOCKER_PASS`       | `docker-publish.yml` | Docker Hub credentials                                                                                                                        |
+| `SUPABASE_URL`                     | `sync-data.yml`      | Supabase project REST URL (same value as the Vercel build-time env var)                                                                       |
+| `SUPABASE_SERVICE_ROLE_KEY`        | `sync-data.yml`      | Supabase **service role** key — bypasses RLS to upsert data. Never expose this client-side; it is not the same as `SUPABASE_PUBLISHABLE_KEY`. |
+
+## Supabase data source
+
+Production doesn't rely on a `sheetId` query param — with no `sheetId` present, `src/util/factory.js` falls back to fetching from a Supabase project (`SUPABASE_URL` / `SUPABASE_PUBLISHABLE_KEY`, read-only via the `radar_entries` table's public SELECT policy, see `supabase/migrations/`).
+
+The table holds three datasets, distinguished by a `dataset` column (`personal`, `team`, `family`), selectable via a `?dataset=` query param (defaults to `personal`):
+
+- `https://<your-deployment>/` or `?dataset=personal` — the default personal wellness radar
+- `https://<your-deployment>/?dataset=team` — a demo team-wellness radar
+- `https://<your-deployment>/?dataset=family` — a demo family-wellness radar
+
+`data/*-radar.csv` is the source of truth for all three (`data/<dataset>-radar.csv`). `scripts/sync-radar-data.js` upserts those files into Supabase and deletes rows no longer present in the CSV, keyed on `(dataset, sector, name)`. It runs nightly via `.github/workflows/sync-data.yml`, which also redeploys production — this doubles as a **Supabase keep-alive**, since free-tier Supabase projects get auto-paused/archived after a period of API inactivity. Edit a `data/*-radar.csv` file and either wait for the nightly run or trigger `sync-data.yml` manually (`workflow_dispatch`) to publish changes.
+
+If the Supabase project is ever archived/deleted outright (not just paused), create a new one, re-apply `supabase/migrations/`, point `SUPABASE_URL`/`SUPABASE_PUBLISHABLE_KEY` (Vercel env vars) and `SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY` (GitHub secrets) at it, and re-run `scripts/sync-radar-data.js` once to reseed all three datasets from `data/`.
 
 ## Vercel
 
@@ -41,7 +58,7 @@ The project deploys to [Vercel](https://vercel.com) as a static build, configure
 1. Create a Vercel project (via the Vercel dashboard, "Import Project", pointing at this GitHub repo — or `vercel link` locally) **without** enabling Vercel's own GitHub auto-deploy integration, since deploys are driven by `deploy.yml` instead.
 2. From the Vercel dashboard, grab the project's Org ID and Project ID (Project Settings → General), and create a personal/CI access token (Account Settings → Tokens).
 3. Add `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` as GitHub Actions secrets (see table above).
-4. Set any required build-time environment variables (`CLIENT_ID`, `API_KEY`, `GTM_ID`, `ENVIRONMENT=production`) as Vercel project environment variables, since `npm run build:prod` reads them from the environment during the Vercel build step.
+4. Set any required build-time environment variables (`CLIENT_ID`, `API_KEY`, `GTM_ID`, `ENVIRONMENT=production`, `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`) as Vercel project environment variables, since `npm run build:prod` reads them from the environment during the Vercel build step. `SUPABASE_URL`/`SUPABASE_PUBLISHABLE_KEY` also have hardcoded fallback values in `webpack.common.js` — update those too if you rotate to a different Supabase project.
 
 ### Manual/local deploy
 

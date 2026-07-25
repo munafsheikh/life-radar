@@ -1,0 +1,33 @@
+name,ring,sector,isNew,description
+Standing desks / movement breaks,Adopt,Physical,FALSE,<p>Team norm: take a break and move every hour during heads-down work.</p>
+Walking 1:1s,Trial,Physical,TRUE,<p>Trying outdoor walking meetings for informal 1:1s.</p>
+Ergonomic equipment audit,Assess,Physical,FALSE,<p>Worth checking whether everyone's home setup is sustainable.</p>
+Working through illness,Hold,Physical,FALSE,<p>Discouraged - take sick time instead of pushing through.</p>
+Blameless postmortems,Adopt,Intellectual,FALSE,"<p>Standard practice after every incident, focused on systems not individuals.</p>"
+Internal tech talks,Trial,Intellectual,TRUE,<p>Piloting a monthly show-and-tell for the team.</p>
+Cross-team pairing rotation,Assess,Intellectual,FALSE,<p>Considering whether periodic pairing across teams pays off.</p>
+Solo tribal knowledge,Hold,Intellectual,FALSE,<p>Actively working to document and spread knowledge instead.</p>
+Psychological safety check-ins,Adopt,Emotional,FALSE,<p>Regular pulse checks so concerns surface early.</p>
+Retro mood tracking,Trial,Emotional,TRUE,<p>Trying a simple mood graph alongside sprint retros.</p>
+Conflict coaching,Assess,Emotional,FALSE,<p>Exploring bringing in coaching support for hard conversations.</p>
+Ignoring burnout signals,Hold,Emotional,FALSE,<p>Actively watching for this and intervening early.</p>
+Team lunches,Adopt,Social,FALSE,<p>Recurring in-person or virtual lunch to keep relationships warm.</p>
+Cross-functional game sessions,Trial,Social,TRUE,<p>Trying occasional social sessions with adjacent teams.</p>
+Team offsite,Assess,Social,FALSE,<p>Evaluating whether an in-person offsite is worth the cost this year.</p>
+Meeting overload,Hold,Social,FALSE,<p>Actively trimming recurring meetings that no longer add value.</p>
+Shared team purpose statement,Adopt,Spiritual,FALSE,<p>Revisited each quarter so the team stays aligned on why the work matters.</p>
+Volunteering day,Trial,Spiritual,TRUE,<p>Piloting a team volunteering day this quarter.</p>
+Values workshop,Assess,Spiritual,FALSE,<p>Considering a facilitated session to refresh team values.</p>
+Performative mission statements,Hold,Spiritual,FALSE,<p>Deprioritizing values work that doesn't translate into behavior.</p>
+Career growth conversations,Adopt,Vocational,FALSE,"<p>Regular, structured growth conversations separate from performance review.</p>"
+Internal mobility pilot,Trial,Vocational,TRUE,<p>Trying a short internal-transfer pilot for a few team members.</p>
+Skills matrix,Assess,Vocational,FALSE,<p>Evaluating whether a shared skills matrix helps planning.</p>
+Unclear promotion criteria,Hold,Vocational,FALSE,<p>Being phased out in favor of a documented growth framework.</p>
+Transparent budget reviews,Adopt,Financial,FALSE,"<p>Quarterly review of team budget and spend, shared openly.</p>"
+Tooling cost audit,Trial,Financial,TRUE,<p>Trying a one-off audit of underused paid tools/licenses.</p>
+Team-level cost ownership,Assess,Financial,FALSE,<p>Considering whether the team should directly own more of its budget.</p>
+Unreviewed recurring spend,Hold,Financial,FALSE,<p>Flagged for cleanup - subscriptions nobody remembers approving.</p>
+Remote-friendly defaults,Adopt,Environmental,FALSE,<p>Default to remote/hybrid to reduce unnecessary commuting.</p>
+Paperless workflows,Trial,Environmental,TRUE,<p>Trying to remove the last few paper-based approval steps.</p>
+Green hosting review,Assess,Environmental,FALSE,<p>Evaluating lower-carbon hosting options for internal tools.</p>
+Unnecessary in-person travel,Hold,Environmental,FALSE,<p>Being reduced in favor of video calls where it doesn't hurt the work.</p>
