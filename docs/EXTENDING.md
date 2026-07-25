@@ -3,7 +3,7 @@
 ## Architecture overview
 
 - `src/site.js` — entry point, wires up the input form / data loading flow (`GoogleSheetInput`, see `src/util/factory.js`).
-- `src/util/factory.js` — decides which data source to use based on the `sheetId` query param (`.csv`, `.json`, or a `docs.google.com` URL), builds the radar, and renders the landing/loading/error states.
+- `src/util/factory.js` — decides which data source to use based on the `sheetId` query param (`.csv`, `.json`, or a `docs.google.com` URL); with no `sheetId`, falls back to Supabase (`SupabaseRadar`, filtered by the `?dataset=` query param, default `personal`) if `SUPABASE_URL`/`SUPABASE_PUBLISHABLE_KEY` are set. Builds the radar and renders the landing/loading/error states.
 - `src/util/sheet.js`, `src/util/googleAuth.js` — Google Sheets API access and OAuth.
 - `src/util/contentValidator.js`, `src/util/inputSanitizer.js` — validate and normalize raw rows into blip data.
 - `src/models/{radar,sector,ring,blip}.js` — domain model. `Sector` replaces the upstream `Quadrant`.
@@ -61,6 +61,10 @@ Add new toggles here following the same pattern, and gate behavior in `src/site.
 ## Theming / styling
 
 Styles are SCSS under `src/stylesheets/`, split by concern (`_colors.scss`, `_layout.scss`, `_header.scss`, `_footer.scss`, `_form.scss`, `_herobanner.scss`, `_landingpage.scss`, `_mediaqueries.scss`, `_tip.scss`, `_loader.scss`, `_error.scss`, `_fonts.scss`), composed in `base.scss`. Update `_colors.scss` for a quick palette change; the radar's own SVG colors are set in `src/graphing/radar.js`.
+
+## Supabase datasets
+
+When served from Supabase (no `sheetId` param), the radar is selected by `?dataset=personal|team|family` (default `personal`). Each maps to a `radar_entries` row where `dataset` equals that value, and to a `data/<dataset>-radar.csv` source file synced in by `scripts/sync-radar-data.js` — see [DEPLOYMENT.md](DEPLOYMENT.md#supabase-data-source). To add another dataset, add a new `data/<name>-radar.csv` file with the same header row and let the nightly sync (or a manual `workflow_dispatch` run of `sync-data.yml`) create the rows.
 
 ## Adding a new data source type
 

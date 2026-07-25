@@ -1,0 +1,33 @@
+name,ring,sector,isNew,description
+Consistent sleep routine,Adopt,Physical,FALSE,<p>A stable practice worth making routine.</p>
+Daily outdoor movement,Trial,Physical,TRUE,<p>A small experiment to run and review.</p>
+Annual health check,Assess,Physical,FALSE,<p>Explore whether this fits your current priorities.</p>
+Reduce late-night screen time,Hold,Physical,FALSE,<p>Deprioritize this while higher-value needs come first.</p>
+Focused reading block,Adopt,Intellectual,FALSE,<p>A stable practice worth making routine.</p>
+Learn one practical skill,Trial,Intellectual,TRUE,<p>A small experiment to run and review.</p>
+Keep a curiosity journal,Assess,Intellectual,FALSE,<p>Explore whether this fits your current priorities.</p>
+Pause low-value information feeds,Hold,Intellectual,FALSE,<p>Deprioritize this while higher-value needs come first.</p>
+Name emotions accurately,Adopt,Emotional,FALSE,<p>A stable practice worth making routine.</p>
+Weekly reflection,Trial,Emotional,TRUE,<p>A small experiment to run and review.</p>
+Practice a calming routine,Assess,Emotional,FALSE,<p>Explore whether this fits your current priorities.</p>
+Reduce avoidable stress triggers,Hold,Emotional,FALSE,<p>Deprioritize this while higher-value needs come first.</p>
+Schedule family connection,Adopt,Social,FALSE,<p>A stable practice worth making routine.</p>
+Reconnect with a friend,Trial,Social,TRUE,<p>A small experiment to run and review.</p>
+Join a shared-interest group,Assess,Social,FALSE,<p>Explore whether this fits your current priorities.</p>
+Limit draining commitments,Hold,Social,FALSE,<p>Deprioritize this while higher-value needs come first.</p>
+Clarify personal values,Adopt,Spiritual,FALSE,<p>A stable practice worth making routine.</p>
+Quiet reflection practice,Trial,Spiritual,TRUE,<p>A small experiment to run and review.</p>
+Contribute to a meaningful cause,Assess,Spiritual,FALSE,<p>Explore whether this fits your current priorities.</p>
+Release rituals that no longer help,Hold,Spiritual,FALSE,<p>Deprioritize this while higher-value needs come first.</p>
+Define the next career milestone,Adopt,Vocational,FALSE,<p>A stable practice worth making routine.</p>
+Build a portfolio artifact,Trial,Vocational,TRUE,<p>A small experiment to run and review.</p>
+Request useful feedback,Assess,Vocational,FALSE,<p>Explore whether this fits your current priorities.</p>
+Stop low-impact busywork,Hold,Vocational,FALSE,<p>Deprioritize this while higher-value needs come first.</p>
+Review monthly spending,Adopt,Financial,FALSE,<p>A stable practice worth making routine.</p>
+Build an emergency buffer,Trial,Financial,TRUE,<p>A small experiment to run and review.</p>
+Automate a savings transfer,Assess,Financial,FALSE,<p>Explore whether this fits your current priorities.</p>
+Cancel unused subscriptions,Hold,Financial,FALSE,<p>Deprioritize this while higher-value needs come first.</p>
+Declutter one small area,Adopt,Environmental,FALSE,<p>A stable practice worth making routine.</p>
+Use reusable everyday items,Trial,Environmental,TRUE,<p>A small experiment to run and review.</p>
+Create a focused workspace,Assess,Environmental,FALSE,<p>Explore whether this fits your current priorities.</p>
+Reduce unnecessary energy use,Hold,Environmental,FALSE,<p>Deprioritize this while higher-value needs come first.</p>

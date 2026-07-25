@@ -1,0 +1,33 @@
+name,ring,sector,isNew,description
+Family walk after dinner,Adopt,Physical,FALSE,<p>A regular after-dinner walk the whole family does together.</p>
+Weekend bike rides,Trial,Physical,TRUE,<p>Trying out weekend bike rides as a family activity.</p>
+Shared fitness tracker goals,Assess,Physical,FALSE,<p>Considering setting shared step goals for fun.</p>
+Screen time free-for-all,Hold,Physical,FALSE,<p>Being reined in with clearer household screen-time norms.</p>
+Family reading time,Adopt,Intellectual,FALSE,<p>A quiet 20 minutes most evenings where everyone reads.</p>
+Museum/library outings,Trial,Intellectual,TRUE,<p>Trying a monthly museum or library outing.</p>
+Kids' curiosity questions log,Assess,Intellectual,FALSE,<p>Considering keeping a running list of questions to look up together.</p>
+Passive TV background noise,Hold,Intellectual,FALSE,<p>Cutting back on TV running by default when nobody's watching.</p>
+Naming feelings out loud,Adopt,Emotional,FALSE,"<p>Encouraging everyone, including kids, to name emotions directly.</p>"
+Weekly family check-in,Trial,Emotional,TRUE,<p>Trying a short weekly round where everyone shares how they're doing.</p>
+Family therapy/coaching,Assess,Emotional,FALSE,<p>Considering outside support during a stressful season.</p>
+Sweeping conflicts under the rug,Hold,Emotional,FALSE,<p>Working on addressing disagreements instead of avoiding them.</p>
+Weekly family dinner,Adopt,Social,FALSE,<p>A recurring dinner where phones stay away from the table.</p>
+Playdates with new families,Trial,Social,TRUE,<p>Trying to meet new families through school/activities.</p>
+Extended family reunion,Assess,Social,FALSE,<p>Considering organizing a larger extended-family gathering.</p>
+Overscheduled weekends,Hold,Social,FALSE,<p>Trimming back double-booked weekends that leave no downtime.</p>
+Shared family values conversation,Adopt,Spiritual,FALSE,<p>Occasional conversation about what matters most to the family.</p>
+Gratitude ritual at dinner,Trial,Spiritual,TRUE,<p>Trying a quick round of gratitude before eating.</p>
+Family volunteering,Assess,Spiritual,FALSE,<p>Considering a cause the whole family could volunteer for together.</p>
+Holiday traditions on autopilot,Hold,Spiritual,FALSE,<p>Revisiting traditions kept out of habit rather than meaning.</p>
+Supporting each other's goals,Adopt,Vocational,FALSE,<p>Regularly checking in on each family member's work/school goals.</p>
+Kids trying a new hobby,Trial,Vocational,TRUE,<p>Trying a new extracurricular activity this term.</p>
+Shared family calendar,Assess,Vocational,FALSE,<p>Considering a shared calendar to reduce scheduling friction.</p>
+Overcommitted after-school activities,Hold,Vocational,FALSE,<p>Cutting back on activities piling up without enough downtime.</p>
+Monthly budget review together,Adopt,Financial,FALSE,<p>A recurring household budget check-in.</p>
+Kids' savings jars,Trial,Financial,TRUE,<p>Trying a simple save/spend/give jar system for the kids.</p>
+Family financial goal,Assess,Financial,FALSE,"<p>Considering a shared savings goal (trip, big purchase) to work toward.</p>"
+Impulse subscription purchases,Hold,Financial,FALSE,<p>Being reviewed and trimmed each month.</p>
+Household recycling routine,Adopt,Environmental,FALSE,"<p>A consistent, everyone-participates recycling routine.</p>"
+Home composting,Trial,Environmental,TRUE,<p>Trying composting for the first time this season.</p>
+Reducing single-use plastics,Assess,Environmental,FALSE,<p>Considering which single-use items are easiest to swap out.</p>
+Leaving lights/devices on unused,Hold,Environmental,FALSE,<p>Actively working to turn things off when not in use.</p>
